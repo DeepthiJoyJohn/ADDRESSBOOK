@@ -1,18 +1,18 @@
 body
 {
-    margin: 0;
-    padding: 0;
-    background-color:#D7BDE2;
-    font-family: 'Arial';
+  margin: 0;
+  padding: 0;
+  background-color:#D7BDE2;
+  font-family: 'Arial';
 }
 .login{
-        width: 382px;
-        overflow: hidden;
-        margin: auto;
-        margin: 100 0 0 450px;
-        padding: 80px;
-        background: #5B2C6F;
-        border-radius: 15px ;
+    width: 382px;
+    overflow: hidden;
+    margin: auto;
+    margin: 100 0 0 450px;
+    padding: 80px;
+    background: #FFFFFF;
+    border-radius: 15px ;
 
 }
 .title{
@@ -22,7 +22,7 @@ body
   margin: auto;
   margin: 10 10 10 10px;
   padding: 10px;
-  background: #5B2C6F;
+  background: #FFFFFF;
   border-radius: 15px ;
 
 }
@@ -33,13 +33,24 @@ body
   padding-top: -5px;
   
 }
+.spancl{
+  float:right;
+  color:	#000000;
+  font-size: 12px;
+  
+}
+span{
+  color:	#FFFFFF;
+  padding-bottom:20px;
+  font-size: 12px;
+}
 h2{
     text-align: center;
     color: #277582;
     padding: 20px;
 }
 label{
-    color: #08ffd1;
+    color: #000000;
     font-size: 17px;
 }
 #Uname{
@@ -55,7 +66,6 @@ label{
     border: none;
     border-radius: 3px;
     padding-left: 8px;
-
 }
 #log{
     width: 300px;
@@ -63,14 +73,14 @@ label{
     border: none;
     border-radius: 17px;
     padding-left: 7px;
-    color: blue;
-
-
-}
-span{
-    color: white;
+    color: #000000;
     font-size: 17px;
 }
+span{
+    color: black;
+    font-size: 17px;
+}   
+    
 a{
     float: right;
     background-color: grey;
