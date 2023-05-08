@@ -26,6 +26,42 @@ body
   border-radius: 15px ;
 
 }
+.title2{
+  width: 1150px;
+  height: 15px;
+  overflow: hidden;
+  margin-left:80px;
+  padding: 10px;
+  background: #FFFFFF;
+  
+}
+.profile{
+  width: 150px;
+  height: 175px;
+  overflow: hidden;
+  margin-left:80px;
+  margin-top:10px;
+  text-align:center;
+  padding: 10px;
+  background: #FFFFFF;
+  
+}
+.listing{
+  width: 970px;
+  height: 150px;
+  overflow: hidden;
+  margin-left:10px;
+  margin-top:10px;
+  text-align:center;
+  padding: 10px;
+  background: #FFFFFF;
+  
+}
+.listingsub{
+  
+  display: flex;
+  
+}
 .image{
   width: 20px;
   height: 18px;
@@ -83,5 +119,43 @@ span{
     
 a{
     float: right;
-    background-color: grey;
+    
+}
+.fa-file-excel-o{
+  color: green;
+  float:right;
+  padding:5px;
+
+}
+.fa-file-pdf-o{
+  color: red;
+  float:right;
+  padding:5px;
+
+}
+.fa-print{
+  color: blue;
+  float:right;
+  padding:5px;
+
+}
+.username{
+  color: blue;
+  margin-top:25px;
+
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  height:20px;
+  border-radius: 8px;
+}
+.th{
+  width:500px;
 }

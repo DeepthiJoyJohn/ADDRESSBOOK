@@ -7,7 +7,7 @@
     <body>
         <div class="title">
             <img src="Images/img.png" class="image"><span> ADDRESSBOOK</span>
-            <span class="spancl"><i class="fa fa-upload"></i>  SignUp  <i class="fa fa-sign-in"></i> login</span>
+            <span class="spancl"><a href="registration.cfm"><i class="fa fa-upload"></i>  SignUp </a> <i class="fa fa-sign-in"></i> login</span>
         </div>
         <div class="login">
             <form id="form" name="form" method="post" action="">
@@ -15,10 +15,16 @@
                 <input type="text" name="Uname" id="Uname" placeholder="Username"><br><br>
                 <label><b>Password</b></label>
                 <input type="Password" name="Pass" id="Pass" placeholder="Password"><br><br>
-                <input type="button" name="log" id="log" value="Log In Here">
+                <input type="Submit" name="log" id="log" value="Log In Here">
             </form>
-            <cfif isDefined("Form.log")>
-
+            <cfif isDefined("form.log")>
+                <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="login" 
+		        Uname="#form.Uname#" Pass="#form.Pass#" returnVariable="res">
+                <cfif res GTE 1>
+                    <cflocation url="listing.cfm">
+                <cfelse>
+                    <cfoutput>Username Not found!!! Please Register and Login</cfoutput>
+                </cfif> 
             </cfif>
         </div>
     </body>
