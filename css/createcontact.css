@@ -1,0 +1,25 @@
+p
+{ 
+  text-align:center; 
+  background-color:#D7BDE2; 
+}
+.box{
+  background-color:#D7BDE2; 
+  font-family: 'Arial';
+  font-size: 12px;
+  display:flex;
+}
+td{
+  width:50px;
+}
+.button {
+  background-color: #c5242c; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  height:20px;
+  border-radius: 8px;
+}
