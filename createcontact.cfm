@@ -3,13 +3,9 @@
         <title>Create Contact</title>        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/createcontact.css">
-        
-        
     </head>
-    <body>
-        <form id="form" name="form" method="post" action="">
+    <form id="form" name="form" method="post" action="createcontact.cfm" enctype="multipart/form-data">
             <p class="body1">CREATE CONTACT </p>
-            
             <label>Personal Details</label>
             <div class='box'>
                 <table>
@@ -52,7 +48,7 @@
                 <table>
                     <tr>
                         <td><label>Address   </label><br>
-                            <textarea></textarea>
+                            <textarea id="address" name="address"></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -67,14 +63,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="Submit" class="button" value="Create Contact"></td>
+                        <td><input type="Submit" name="Submit" class="button" value="Create Contact"></td>
                     </tr>
                 </table>                
             </div>
         </form>
         <cfif isDefined("form.Submit")>
                 <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="createcontact" 
-		        form="#form#" returnVariable="res">
+		        form="#form#">
+                <cflocation url="listing.cfm">
         </cfif>
-    </body>
 </html>
