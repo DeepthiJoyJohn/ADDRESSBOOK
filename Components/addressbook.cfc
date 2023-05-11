@@ -63,6 +63,33 @@
             )
         </cfquery>        
     </cffunction>
+    <cffunction name="updatecontact" access="public">
+        <cfargument name="form"> 
+        <cfset local.filename="">
+        <cfif isDefined("form.photo") AND evaluate("form.photo") NEQ "" >
+            <cffile action="upload" fileField="form.photo" destination="C:\Pictures" 
+            accept="image/png,image/jpg,image/gif,image/jpeg"  
+            nameconflict="makeunique">
+            <cfset local.filename="#cffile.serverdirectory#/#cffile.serverfile#">  
+        <cfelse>
+        	 <cfquery name="local.getphoto" datasource="addressbook">
+		    	SELECT photo FROM contactdetails where id="#form.id#"
+	         </cfquery>
+	         <cfset local.filename="#local.getphoto.photo#">          	          
+   	    </cfif>
+        <cfquery name="local.updatecontact" datasource="addressbook">
+            update contactdetails set title=<cfqueryparam value="#form.title#" cfsqltype="CF_SQL_VARCHAR">,
+            firstname=<cfqueryparam value="#form.firstname#" cfsqltype="CF_SQL_VARCHAR">,
+            lastname=<cfqueryparam value="#form.lastname#" cfsqltype="CF_SQL_VARCHAR">,
+            gender=<cfqueryparam value="#form.gender#" cfsqltype="CF_SQL_VARCHAR">,
+            dob=<cfqueryparam value="#form.dob#" cfsqltype="CF_SQL_DATE">,
+            photo=<cfqueryparam value="#local.filename#" cfsqltype="CF_SQL_VARCHAR">,
+            address=<cfqueryparam value="#form.address#" cfsqltype="CF_SQL_VARCHAR">,
+            street=<cfqueryparam value="#form.street#" cfsqltype="CF_SQL_VARCHAR">,
+            email=<cfqueryparam value="#form.email#" cfsqltype="CF_SQL_VARCHAR">,
+            phone=<cfqueryparam value="#form.phone#" cfsqltype="CF_SQL_VARCHAR"> where id="#form.id#"            
+        </cfquery>        
+    </cffunction>
     <cffunction name="delete" access="remote">                 
         <cfquery name="local.delete" datasource="addressbook">
 			delete from contactdetails where id=<cfqueryparam value="#url.id#" cfsqltype="CF_SQL_INTEGER">

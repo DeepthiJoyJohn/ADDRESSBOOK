@@ -21,5 +21,23 @@ td{
   display: inline-block;
   font-size: 12px;
   height:20px;
+  width:100px;
   border-radius: 8px;
+}
+.buttonclose {
+  background-color: red; 
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;  
+  border-radius: 8px;
+  float:right;
+}
+.label{
+	font-size: 5px;
+}
+.tdclass{
+	text-align:center;
+	
 }

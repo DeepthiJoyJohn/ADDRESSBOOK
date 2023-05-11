@@ -58,7 +58,7 @@ body
   
 }
 .divdisplay{
-	
+	font-weight: bold;
 	display:inline-block;
 	width:150px;
 }
@@ -161,11 +161,10 @@ a{
   margin-top:25px;
 
 }
-.button {
+button.button {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
-  
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -173,6 +172,29 @@ a{
   height:20px;
   border-radius: 8px;
 }
+
+button.editbutton {
+  background-color: white; 
+  border: none;
+  color: blue;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;  
+  border-radius: 8px;
+}
+button.printbutton {
+  background-color: white; 
+  border: none;
+  color: blue;
+  text-align: right;
+  float: right;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;  
+  border-radius: 8px;
+}
+
 .th{
   width:500px;
 }
