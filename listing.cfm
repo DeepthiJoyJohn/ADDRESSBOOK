@@ -16,8 +16,9 @@
             </div>
             <div class="title2">
                 <button type="button" onclick="javascript:generateexcel();" class="printbutton"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
-                <button type="button" class="printbutton"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
-                <button type="button" class="printbutton"><i class="fa fa-print" aria-hidden="true"></i></button>
+                <button type="button" onClick="window.print()"class="printbutton"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                <button type="button" onClick="window.print()" class="printbutton"><i class="fa fa-print" aria-hidden="true"></i></button>
+                
             </div>
             <div class="listingsub">
                 <div class="profile">
