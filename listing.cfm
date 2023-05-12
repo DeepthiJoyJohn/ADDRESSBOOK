@@ -5,7 +5,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>	
 		<script src="js/listing.js" type="text/javascript"></script>
+		<script src="js/excel.js" type="text/javascript"></script>
     </head>
+    
     <body>
         <cfform>
             <div class="title">
@@ -13,8 +15,8 @@
                 <span class="spancl"><a href="login.cfm"><i class="fa fa-sign-in"></i> Logout</a></span>
             </div>
             <div class="title2">
-                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                <button type="button" onclick="javascript:generateexcel();" class="printbutton"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+                <button type="button" class="printbutton"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
                 <button type="button" class="printbutton"><i class="fa fa-print" aria-hidden="true"></i></button>
             </div>
             <div class="listingsub">
@@ -38,8 +40,7 @@
                      <cfscript>
 						ORMReload();
 						contactdetails = EntityLoad('contactdetails');
-						n=arraylen(contactdetails);
-						
+						n=arraylen(contactdetails);						
 					</cfscript>
 					<cfloop index="i" from="1" to="#n#">
 						<cfimage action="read" source="#contactdetails[i].getphoto()#" name="myImage">
