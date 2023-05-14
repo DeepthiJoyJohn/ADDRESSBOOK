@@ -10,4 +10,5 @@
 	<cfproperty name="street"> 
 	<cfproperty name="email"> 
 	<cfproperty name="phone"> 
+	<cfproperty name="createdby"> 
 </cfcomponent>

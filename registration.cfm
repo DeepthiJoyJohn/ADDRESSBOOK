@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/registration.css">  
     <link rel="stylesheet" type="text/css" href="css/login.css"> 
+    <script src="js/listing.js" type="text/javascript"></script>	
        
   </head>
 <section class="vh-100 bodyclass">
@@ -34,14 +35,14 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" id="form3Example4c" name="password1" class="form-control" required="yes"/>
+                      <input type="password" id="password1" onkeyup="checkpass();" name="password1" class="form-control" required="yes"/>
                       <label class="form-label" for="form3Example4c">Password</label>
                     </div>
                   </div>
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" id="form3Example4cd" name="password2" class="form-control" required="yes"/>
+                      <input type="password" id="password2" onkeyup="checkpass();" name="password2" class="form-control" required="yes"/>
                       <label class="form-label" for="form3Example4cd">Repeat your password</label>
                     </div>
                   </div>

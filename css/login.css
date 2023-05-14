@@ -62,6 +62,17 @@ body
 	display:inline-block;
 	width:150px;
 }
+td.head{
+	font-weight: bold;	
+	width:200px;
+	text-align:center;
+	font-family: 'Arial';
+}
+td.tail{
+	text-align:center;	
+	width:200px;
+	font-family: 'Arial';
+}
 .listingsub{
   
   display: flex;

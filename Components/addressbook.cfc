@@ -3,11 +3,12 @@
         <cfargument name="Uname">
         <cfargument name="Pass">
         <cfquery name="local.checklogin" datasource="addressbook">
-            SELECT username FROM login where username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR"> and 
+            SELECT username,id FROM login where username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR"> and 
             password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery> 
         <cfif local.checklogin.RecordCount GTE 1>
             <cfset session.username=local.checklogin.username>
+            <cfset session.userid=local.checklogin.id>
         </cfif>
         <cfreturn local.checklogin.RecordCount>
     </cffunction>
@@ -48,7 +49,7 @@
 	    </cfquery>
         <cfquery name="local.createcontact" datasource="addressbook">
             insert into contactdetails (id,title,firstname,lastname,gender,dob,photo,address,
-            street,email,phone) VALUES
+            street,email,phone,createdby) VALUES
             (<cfqueryparam value="#local.getlastid.id#" cfsqltype="CF_SQL_INTEGER">,
             <cfqueryparam value="#form.title#" cfsqltype="CF_SQL_VARCHAR">,
             <cfqueryparam value="#form.firstname#" cfsqltype="CF_SQL_VARCHAR">,
@@ -59,7 +60,8 @@
             <cfqueryparam value="#form.address#" cfsqltype="CF_SQL_VARCHAR">,
             <cfqueryparam value="#form.street#" cfsqltype="CF_SQL_VARCHAR">,
             <cfqueryparam value="#form.email#" cfsqltype="CF_SQL_VARCHAR">,
-            <cfqueryparam value="#form.phone#" cfsqltype="CF_SQL_VARCHAR">
+            <cfqueryparam value="#form.phone#" cfsqltype="CF_SQL_VARCHAR">,
+            <cfqueryparam value="#session.userid#" cfsqltype="CF_SQL_INTEGER">
             )
         </cfquery>        
     </cffunction>
@@ -110,6 +112,15 @@
 		</cfscript>
 		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>
 		<cfspreadsheet action="read" src="#theFile#" sheet=1 rows="100-200" format="csv" name="csvData">
-		<cfcontent type="application/vnd.ms-excel.sheet.macroEnabled.12" file="C:\ColdFusionBuilder2018\ColdFusion\cfusion\wwwroot\ADDRESSBOOK\Components\ExcelFiles\courses.xls"> 
+		<cfcontent type="application/vnd.ms-excel.sheet.macroEnabled.12" 
+		file="C:\ColdFusionBuilder2018\ColdFusion\cfusion\wwwroot\ADDRESSBOOK\Components\ExcelFiles\courses.xls"> 
+    </cffunction>
+    <cffunction name="generatepdf" access="remote">
+    	<cfargument name="savecontent" >
+    	<cfdocument format="PDF">
+    		<cfoutput >
+    			#arguments.savecontent#
+    		</cfoutput>	
+    	</cfdocument> 
     </cffunction>
 </cfcomponent>  
