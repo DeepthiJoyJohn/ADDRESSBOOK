@@ -5,15 +5,11 @@ function init(name)
 			}
 
 function checkpass(){
-	
-	var pas1=document.getElementbyId("password1").value;
-	alert(pas1);
-	var pas2=document.getElementbyId("password2").value;
-	if(pas1!="" && pas2!=""){
-		if(pas1!=pas2){
-			alert("Passwords does not match")
-		}
-		
-	}
-	
+	 var passValue1 = document.getElementById("password1").value;
+	 var passValue2 = document.getElementById("password2").value;	 
+		 if((passValue1!="" && passValue2!="") || (passValue1!=null && passValue2!=null)){
+		 	 if(passValue1!=passValue2){
+		 		alert("Password Doesnt Match!!!");
+		 	 }	
+		 }	
 }
