@@ -14,7 +14,7 @@ td{
 }
 .username{
   color: blue;
-  margin-left:105px;
+  margin-left:115px;
   
 
 }
@@ -87,6 +87,7 @@ button.button {
   font-size: 12px;
   height:20px;
   border-radius: 8px;
+  margin-left:80px;
 }
 
 button.editbutton {

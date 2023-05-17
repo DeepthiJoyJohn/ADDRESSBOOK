@@ -17,8 +17,7 @@
 	    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 	    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
 	    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-	    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-	    
+	    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">	    
         <link rel="stylesheet" type="text/css" href="css/createcontact.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  		
 	    	
@@ -33,7 +32,10 @@
 		<script src="assets/vendor/typed.js/typed.min.js"></script>
 		<script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
 		<script src="assets/vendor/php-email-form/validate.js"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>	
 		<script src="js/registration.js" type="text/javascript"></script>
+		<script src="js/listing.js" type="text/javascript"></script>
+		<script src="js/excel.js" type="text/javascript"></script>
 		<!-- Template Main JS File -->
 		<script src="assets/js/main.js"></script>	
 	</head>
@@ -45,7 +47,12 @@
 		    	<div class="profile">        
 		        	<h1 class="text-light"><a href="index.html">Address Book</a></h1>  
 		        	<img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle"> 
-		        	<span class="username"><cfoutput>#session.username#</cfoutput></span><br>	     
+		        	<span class="username"><cfoutput>#session.username#</cfoutput></span><br>
+		        	<button type="button" class="button" onclick="javascript:ColdFusion.Window.create('mywindow', 'Create Contact',
+								'createcontact.cfm?view=false&id=0',{x:320,y:60,height:600,width:950,modal:false,closable:false,draggable:true,
+								resizable:true,center:true,initshow:true,
+								minheight:200,minwidth:200,refreshOnShow:true})">Create Contact
+                    </button>	     
 		      	</div>
 		      	<nav id="navbar" class="nav-menu navbar">
 			        <ul>
@@ -66,7 +73,7 @@
             <div class="listingsub">                              
 	            <cfsavecontent variable="strContent"> 
 	                <div class="listing scroll" id="myContent">
-	                	<table>
+	                	<table class="table">
 	                		<tr>
 			                	<td class="head">Contact</td>
 			                	<td class="head">Name</td>
@@ -90,7 +97,7 @@
 										<td class="tail">#contactdetails[i].getphone()#</td>				
 										<td class="tail">
 				                    		<button type="button" class="editbutton" onclick="javascript:ColdFusion.Window.create('mywindow', 'EDIT CONTACT',
-												'createcontact.cfm?view=&id=#contactdetails[i].getid()#',{x:350,y:100,height:500,width:750,modal:false,closable:false,draggable:true,resizable:true,center:true,initshow:true,
+												'createcontact.cfm?view=&id=#contactdetails[i].getid()#',{x:320,y:60,height:600,width:950,modal:false,closable:false,draggable:true,resizable:true,center:true,initshow:true,
 												minheight:200,minwidth:200,refreshOnShow:true})">
 				                    			<i class="fa fa-edit" aria-hidden="true"></i>
 				                    		</button>
@@ -99,7 +106,7 @@
 												<i class="fa fa-trash" aria-hidden="true"></i>
 											</a>&nbsp;&nbsp;
 											<button type="button" class="editbutton" onclick="javascript:ColdFusion.Window.create('mywindow', 'VIEW CONTACT',
-												'createcontact.cfm?view=true&id=#contactdetails[i].getid()#',{x:350,y:100,height:500,width:750,modal:false,closable:false,draggable:true,resizable:true,center:true,initshow:true,
+												'createcontact.cfm?view=true&id=#contactdetails[i].getid()#',{x:320,y:60,height:600,width:950,modal:false,closable:false,draggable:true,resizable:true,center:true,initshow:true,
 												minheight:200,minwidth:200,refreshOnShow:true})">
 												<i class="fa fa-eye" aria-hidden="true"></i>
 											</button>

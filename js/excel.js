@@ -1,10 +1,11 @@
 function generateexcel(){	
-	$(document).ready(function(){	
+	
+	$(document).ready(function(){			
 				$.ajax({
 					type: "GET",
 					url: '../ADDRESSBOOK/Components/addressbook.cfc?method=generateexcel',
 					cache: false,
-					success: function(data){
+					success: function(data){						
 						
 					},
 				});

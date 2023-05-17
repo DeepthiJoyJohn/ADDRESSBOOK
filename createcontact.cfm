@@ -1,10 +1,45 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-	    <title>Create Contact</title>        
-	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	    <link rel="stylesheet" type="text/css" href="css/createcontact.css">
+	    <meta charset="utf-8">
+	    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	    <title>ADDRESSBOOK</title>
+	    <meta content="" name="description">
+	    <meta content="" name="keywords">
+	    <!-- Favicons -->
+	    <link href="assets/img/favicon.png" rel="icon">
+	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+	    <!-- Google Fonts -->
+	    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	    <!-- Vendor CSS Files -->
+	    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+	    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+	    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+	    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+	    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+	    <link rel="stylesheet" type="text/css" href="css/registration.css">
+	    	
+	    <!-- Template Main CSS File -->
+	    <link href="assets/css/style.css" rel="stylesheet">
+	    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+		<script src="assets/vendor/aos/aos.js"></script>
+		<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+		<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+		<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+		<script src="assets/vendor/typed.js/typed.min.js"></script>
+		<script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+		<script src="assets/vendor/php-email-form/validate.js"></script>
+		<script src="js/registration.js" type="text/javascript"></script>
+		<!-- Template Main JS File -->
+		<script src="assets/js/main.js"></script>	
 	</head>
-    <cfif #url.id# neq 0 AND #url.id# neq "">
+	<body>		
+				
+		 <!-- ======= Hero Section ======= -->
+		  <section  class="d-flex flex-column justify-content-center align-items-center">
+		  	<cfif #url.id# neq 0 AND #url.id# neq "">
 	   <cfset contactdetails = EntityNew("contactdetails")>
 	   <cfset contactdetails = EntityLoad('contactdetails', {id=#url.id#}, true)>
 	   <cfset id=contactdetails.getid()>
@@ -40,71 +75,71 @@
        <cfset displayedit="none">	
 	   <cfset displaynew="none">
    </cfif>
-    <form id="form" name="form" method="post" action="createcontact.cfm?id=".url.id enctype="multipart/form-data">
+    <form id="form" name="form" method="post" action="createcontact.cfm?view=false&id=".url.id enctype="multipart/form-data">
 	    <input class="buttonclose"name="button" value="Close" onclick="javascript:init('mywindow')" type="button"/><br>
-        <p class="body1">CONTACT DETAILS </p>
-        <label>Personal Details</label>
-            <div class='box'>
-                <table>
-                    <tr>
-                        <td><label>Title   </label><br>
-                            <select name="title" id="title" required="yes">
-                                <option value="Mr">Mr</option>
-                                <option value="Ms">Ms</option>
-                                <option value="Mrs">Mrs</option>novalidation
-                                <option value="Dr">Dr</option>
-                            </select>
-                        </td>
-                        <td><label>First Name</label>
-                            <input type="text" name="firstname" id="firstname" required="yes" value="<cfoutput>#firstname#</cfoutput>">
-                        </td>
-                        <td><label>Last Name</label>
-                             <input type="text" name="lastname" required="yes" value="<cfoutput>#lastname#</cfoutput>">
-                        </td>
+        <div class="profile">        
+		        	<h5 class="text-light"><a href="index.html">Personal Details</a></h5>        
+		</div>        
+        <div class='container'>
+            <table class="table">
+                <tr>
+                    <td><label class="form-label">Title</label>
+                        <select class="form-select-sm"  name="title" id="title" required="yes">
+                            <option value="Mr">Mr</option>
+                            <option value="Ms">Ms</option>
+                            <option value="Mrs">Mrs</option>
+                            <option value="Dr">Dr</option>
+                        </select>
+                    </td>
+					<td><label class="form-label">First Name</label>
+                        <input type="text" class="form-control-sm" name="firstname" id="firstname" required="yes" value="<cfoutput>#firstname#</cfoutput>">
+                    </td>
+					 <td><label class="form-label">Last Name</label><br>
+                         <input type="text" class="form-control-sm" name="lastname" required="yes" value="<cfoutput>#lastname#</cfoutput>">
+                    </td> 
+                </tr>
+                <tr>
+					<td><label class="form-label">Gender</label>
+                        <select class="form-select-sm" name="gender" id="gender" required="yes">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </td>
+                    <td><label class="form-label">DOB</label><br>
+                        <input class="form-control-sm" type="date" id="dob" name="dob" required="yes" value="<cfoutput>#dob#</cfoutput>">
+                    </td>
                     
-                        <td><label>Gender</label>
-                            <select name="gender" id="gender" required="yes">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>DOB</label>
-                            <input type="date" id="dob" name="dob" required="yes" value="<cfoutput>#dob#</cfoutput>">
-                        </td>
-                        
-                        <td><label>Upload Photo</label>
-                            <input type="file" name="photo" id="photo" value="<cfoutput>#photo#</cfoutput>">
-                                                   </td>
-                        <td>
-                            <label class="label"><cfoutput>#photo#</cfoutput></label>
-                        </td>
-                    </tr>
-            </table>
-            </div>
-            <label>Contact Details</label>
-            <div class="box">
+                    <td><label class="form-label">Upload Photo</label>
+                        <input class="form-control-sm" type="file" name="photo" id="photo" value="<cfoutput>#photo#</cfoutput>">
+						<label class="form-label"><cfoutput>#photo#</cfoutput></label>
+					</td>                    
+                </tr>
+        </table>
+        </div>
+        <div class="profile">        
+		        	<h5 class="text-light"><a href="index.html">Contact Details</a></h5>        
+		</div>
+            <div class="container">
                 <table>
                     <tr>
-                        <td class="tdclass"><label>Address   </label><br>
-                            <textarea id="address" name="address"><cfoutput>#address#</cfoutput></textarea>
+                        <td colspan="4"><label class="form-label">Address</label>
+                            <textarea class="form-control" id="address" name="address"><cfoutput>#address#</cfoutput></textarea>
                         </td>
                     </tr>
                     <tr>
-                         <td><label>Street   </label><br>
-                           <input type="text" id="street" name="street" required="yes" value="<cfoutput>#street#</cfoutput>">
+                         <td><label class="form-label">Street   </label><br>
+                           <input type="text" class="form-control-sm" id="street" name="street" required="yes" value="<cfoutput>#street#</cfoutput>">
                         </td>
-                        <td><label>Email   </label><br>
-                           <input type="text" id="email" name="email" required="yes" value="<cfoutput>#email#</cfoutput>">
+                        <td><label class="form-label">Email   </label><br>
+                           <input type="text" class="form-control-sm" id="email" name="email" required="yes" value="<cfoutput>#email#</cfoutput>">
                         </td>
-                        <td><label>Phone   </label><br>
-                           <input type="text" id="phone" name="phone" required="yes" value="<cfoutput>#phone#</cfoutput>">
+                        <td><label class="form-label">Phone   </label><br>
+                            <input type="text" class="form-control-sm" id="phone" name="phone" required="yes" value="<cfoutput>#phone#</cfoutput>">
                            	<input type="hidden" id="id" name="id" value="<cfoutput>#id#</cfoutput>">
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdclass" colspan="4">
+                        <td colspan="4"><br>
                         	<input type="Submit" style="display:<cfoutput>#displaynew#</cfoutput>;" name="Submit" class="button" value="Create Contact">
                         	<input type="Submit" style="display:<cfoutput>#displayedit#</cfoutput>;" name="Update" class="button" value="Update Contact">
                         </td>
@@ -115,11 +150,14 @@
     <cfif isDefined("form.Submit")>
             <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="createcontact" 
 	        form="#form#">
-            <cflocation url="listing.cfm">
+            <cflocation url="listing.cfm?view=false">
     </cfif>
     <cfif isDefined("form.Update")>
             <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="updatecontact" 
 	        form="#form#">
             <cflocation url="listing.cfm">
-    </cfif>
+    </cfif>	    
+		</section>
+	<!-- End Hero -->
+	</body>
 </html>

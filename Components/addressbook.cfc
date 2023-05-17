@@ -101,7 +101,7 @@
     <cffunction name="generateexcel" access="remote"> 
     	<cfquery name="local.generateexcel" datasource="addressbook"> 
 	       SELECT firstname,email,phone 
-	       FROM contactdetails 
+	       FROM contactdetails where createdby="#session.userid#" 
 		</cfquery> 
 		<cfscript> 		   
 		    theDir=GetContextRoot(); 		    
@@ -113,7 +113,7 @@
 		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>
 		<cfspreadsheet action="read" src="#theFile#" sheet=1 rows="100-200" format="csv" name="csvData">
 		<cfcontent type="application/vnd.ms-excel.sheet.macroEnabled.12" 
-		file="C:\ColdFusionBuilder2018\ColdFusion\cfusion\wwwroot\ADDRESSBOOK\Components\ExcelFiles\courses.xls"> 
+		file="C:\ColdFusionBuilder2018\ColdFusion\cfusion\wwwroot\ADDRESSBOOK\Components\ExcelFiles\courses.xls">        
     </cffunction>
     <cffunction name="generatepdf" access="remote">
     	<cfargument name="savecontent" >
