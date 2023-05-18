@@ -8,9 +8,7 @@
 	    <meta content="" name="keywords">
 	    <!-- Favicons -->
 	    <link href="assets/img/favicon.png" rel="icon">
-	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-	    <!-- Google Fonts -->
-	    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">	    
 	    <!-- Vendor CSS Files -->
 	    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 	    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -66,14 +64,14 @@
 			                  				<div class="d-flex flex-row align-items-center mb-4">
 			                    				<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 		                    					<div class="form-outline flex-fill mb-0">
-							                    	<input type="text" name="username" id="form3Example1c" class="form-control" required="yes"/>
+							                    	<input type="text" name="username" maxlength="15" id="form3Example1c" class="form-control" required="yes"/>
 							                        <label class="form-label" for="form3Example1c">User Name</label>
 		                    					</div>
 			                  				</div>
 			                  				<div class="d-flex flex-row align-items-center mb-4">
 			                    				<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
 								                    <div class="form-outline flex-fill mb-0">
-								                      <input type="email" name="emailname" id="emailname" class="form-control" required="yes"/>
+								                      <cfinput type="email" name="emailname" id="emailname" class="form-control" required="yes"/>
 								                      <label class="form-label" for="form3Example3c">Your Email</label>
 								                    </div>
 			                  				</div>
@@ -97,9 +95,17 @@
 							                	<input type="Submit" name="register"  class="btn btn-primary btn-lg" value="Register">
 							                 </div>			                
 							                 <cfif isDefined("Form.register")>
+											      <cfif #form.username# eq "">
+												  	<h3>User Name cant be null</h3>
+												  <cfelseif #form.emailname# eq "">
+												    <h3>Email cant be null</h3>
+												  <cfelseif Form.password1 NEQ form.password2>
+												  	<h1>Password confirmation does not match Password.</h1>
+												  <cfelse>
 								                  <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="signup" 
 								                  form="#form#" returnVariable="res">
-								                  <cfoutput>#res#</cfoutput>     	
+								                  <cfoutput>#res#</cfoutput> 
+								                  </cfif>    	
 							                 </cfif>
 			              				</div>
 							            <div class="w-25 p-3">

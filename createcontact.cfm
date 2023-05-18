@@ -8,9 +8,7 @@
 	    <meta content="" name="keywords">
 	    <!-- Favicons -->
 	    <link href="assets/img/favicon.png" rel="icon">
-	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-	    <!-- Google Fonts -->
-	    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">	    
 	    <!-- Vendor CSS Files -->
 	    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 	    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -92,10 +90,10 @@
                         </select>
                     </td>
 					<td><label class="form-label">First Name</label>
-                        <input type="text" class="form-control-sm" name="firstname" id="firstname" required="yes" value="<cfoutput>#firstname#</cfoutput>">
+                        <input type="text" class="form-control-sm" name="firstname" maxlength="25" id="firstname" required="yes" value="<cfoutput>#firstname#</cfoutput>">
                     </td>
 					 <td><label class="form-label">Last Name</label><br>
-                         <input type="text" class="form-control-sm" name="lastname" required="yes" value="<cfoutput>#lastname#</cfoutput>">
+                         <input type="text" class="form-control-sm" name="lastname" maxlength="25" required="yes" value="<cfoutput>#lastname#</cfoutput>">
                     </td> 
                 </tr>
                 <tr>
@@ -123,7 +121,7 @@
                 <table>
                     <tr>
                         <td colspan="4"><label class="form-label">Address</label>
-                            <textarea class="form-control" id="address" name="address"><cfoutput>#address#</cfoutput></textarea>
+                            <textarea required="yes" class="form-control" id="address" name="address"><cfoutput>#address#</cfoutput></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -131,10 +129,10 @@
                            <input type="text" class="form-control-sm" id="street" name="street" required="yes" value="<cfoutput>#street#</cfoutput>">
                         </td>
                         <td><label class="form-label">Email   </label><br>
-                           <input type="text" class="form-control-sm" id="email" name="email" required="yes" value="<cfoutput>#email#</cfoutput>">
+                           <input type="email" class="form-control-sm" id="email" name="email" required="yes" value="<cfoutput>#email#</cfoutput>">
                         </td>
                         <td><label class="form-label">Phone   </label><br>
-                            <input type="text" class="form-control-sm" id="phone" name="phone" required="yes" value="<cfoutput>#phone#</cfoutput>">
+                            <input type="text" class="form-control-sm" onkeyup="javascript:testbox(this.value)" id="phone" name="phone" required="yes" value="<cfoutput>#phone#</cfoutput>">
                            	<input type="hidden" id="id" name="id" value="<cfoutput>#id#</cfoutput>">
                         </td>
                     </tr>
@@ -148,14 +146,15 @@
             </div>
 	</form>
     <cfif isDefined("form.Submit")>
+    	
             <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="createcontact" 
 	        form="#form#">
-            <cflocation url="listing.cfm?view=false">
+            <cflocation url="listing.cfm?view=false" addtoken="no">
     </cfif>
     <cfif isDefined("form.Update")>
             <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="updatecontact" 
 	        form="#form#">
-            <cflocation url="listing.cfm">
+            <cflocation url="listing.cfm" addtoken="no">
     </cfif>	    
 		</section>
 	<!-- End Hero -->

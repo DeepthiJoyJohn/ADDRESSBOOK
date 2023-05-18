@@ -26,3 +26,14 @@ function passwordnullcheck(){
 		 }
 		 
 }
+function testbox(value) {
+	
+	if (isNaN(value)) 
+	{
+		return (false);
+	} 
+	else
+	{
+		return (true);
+	} 
+}

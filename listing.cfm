@@ -8,9 +8,7 @@
 	    <meta content="" name="keywords">
 	    <!-- Favicons -->
 	    <link href="assets/img/favicon.png" rel="icon">
-	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-	    <!-- Google Fonts -->
-	    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">	    
 	    <!-- Vendor CSS Files -->
 	    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 	    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +40,7 @@
 	<body>		
 		<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 		<!-- ======= Header ======= -->
-		<header id="header">
+		<header id="header">			
 			<div class="d-flex flex-column">
 		    	<div class="profile">        
 		        	<h1 class="text-light"><a href="index.html">Address Book</a></h1>  
@@ -87,7 +85,11 @@
 							n=arraylen(contactdetails);						
 						</cfscript>
 						<cfloop index="i" from="1" to="#n#">
-							<cfimage action="read" source="#contactdetails[i].getphoto()#" name="myImage">
+							<cfif #contactdetails[i].getphoto()# NEQ "">
+								<cfimage action="read" source="#contactdetails[i].getphoto()#" name="myImage">
+							<cfelse>
+								<cfimage action="read" source="assets/img/profile-img.jpg" name="myImage">							
+							</cfif>
 			    			<cfset ImageScaleToFit(myImage,20,20,"bilinear")>		    			
 							<cfoutput>								
 									<tr>
@@ -124,7 +126,7 @@
 	             <cfif isDefined("form.pdfbtn")>
 				 	<cfdocument format="pdf" >
 		             	<cfoutput>
-		               	#strContent#
+		               		#strContent#
 		             	</cfoutput>	             	
 	             	</cfdocument>   	
 			    </cfif>
@@ -132,7 +134,6 @@
         </cfform>
         <cfwindow x="350" y="100" width="750" height="500" name="mywindow2" source="createcontact.cfm?id=0"   
         draggable="false" resizable="false" /> 
-		    
 		</section>
 	<!-- End Hero -->
 	</body>

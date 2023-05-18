@@ -8,9 +8,7 @@
 	    <meta content="" name="keywords">
 	    <!-- Favicons -->
 	    <link href="assets/img/favicon.png" rel="icon">
-	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-	    <!-- Google Fonts -->
-	    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">	    
 	    <!-- Vendor CSS Files -->
 	    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 	    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -65,14 +63,14 @@
 			                  				<div class="d-flex flex-row align-items-center mb-4">
 			                    				<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 		                    					<div class="form-outline flex-fill mb-0">
-							                    	<input type="text" id="Uname" name="Uname" class="form-control" required="yes"/>
+							                    	<input type="text" id="Uname" name="Uname" maxlength="15" class="form-control" required="yes"/>
 							                        <label class="form-label" for="form3Example1c">User Name</label>
 		                    					</div>
 			                  				</div>			                  				
 			                  				<div class="d-flex flex-row align-items-center mb-4">
 			                    				<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
 								                    <div class="form-outline flex-fill mb-0">
-								                      <input type="password" id="Pass" name="Pass" class="form-control" required="yes"/>
+								                      <input type="password" id="Pass" name="Pass" maxlength="15" class="form-control" required="yes"/>
 								                      <label class="form-label" for="form3Example4c">Password</label>
 								                    </div>
 			                  				</div>
@@ -81,13 +79,21 @@
 							                	<input type="Submit" type="Submit" onclick="javascript:passwordnullcheck()"name="log" id="log"  class="btn btn-primary btn-lg" value="Log In">
 							                 </div>			                
 							                 <cfif isDefined("form.log") AND #form.Pass# NEQ "">
-								                <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="login" 
-										        Uname="#form.Uname#" Pass="#form.Pass#" returnVariable="res">
-								                <cfif res GTE 1 >
-								                    <cflocation url="listing.cfm">
-								                <cfelse>
-								                    <cfoutput>Wrong Credentials!!</cfoutput>
-								                </cfif> 
+							                 	<cfif #form.Pass# NEQ "" && #form.Uname# NEQ "">
+									                <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="login" 
+											        Uname="#form.Uname#" Pass="#form.Pass#" returnVariable="res">
+									                <cfif res GTE 1 >
+														<cflock TYPE="EXCLUSIVE" timeout = "60" SCOPE="SESSION">
+															<cfset session.username=#form.Uname#>
+															<cfset session.userid=#res#>
+														</cflock>
+									                    <cflocation url="listing.cfm" addtoken="no">
+									                <cfelse>
+									                    <cfoutput>Wrong Credentials!!</cfoutput>
+									                </cfif> 
+									           <cfelse>
+									           		<cfoutput>FILL USERNAME AND PASSWORD</cfoutput>
+									           </cfif>
 								            </cfif>
 			              				</div>
 							            <div class="w-25 p-3">

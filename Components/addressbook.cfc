@@ -6,11 +6,12 @@
             SELECT username,id FROM login where username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR"> and 
             password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery> 
-        <cfif local.checklogin.RecordCount GTE 1>
-            <cfset session.username=local.checklogin.username>
-            <cfset session.userid=local.checklogin.id>
+        <cfif local.checklogin.RecordCount GTE 1>            
+            <cfset local.id=local.checklogin.id>
+        <cfelse>
+            <cfset local.id=0>
         </cfif>
-        <cfreturn local.checklogin.RecordCount>
+        <cfreturn local.id>
     </cffunction>
     <cffunction name="signup" access="public">
         <cfargument name="form">
@@ -23,7 +24,7 @@
         <cfelse>
             <cfquery name="local.getlastid" datasource="addressbook">
 			    SELECT CASE WHEN MAX(id) IS NULL THEN 1 ELSE MAX(id)+1 END AS id FROM login
-		    </cfquery>
+		    </cfquery>            
             <cfquery name="local.signup" datasource="addressbook">
                 insert into login (id,username,password,email) VALUES
                 (<cfqueryparam value="#local.getlastid.id#" cfsqltype="CF_SQL_INTEGER">,
@@ -96,7 +97,7 @@
         <cfquery name="local.delete" datasource="addressbook">
 			delete from contactdetails where id=<cfqueryparam value="#url.id#" cfsqltype="CF_SQL_INTEGER">
 		</cfquery>
-        <cflocation url="../listing.cfm">
+        <cflocation url="../listing.cfm" addtoken="false">
     </cffunction>
     <cffunction name="generateexcel" access="remote"> 
     	<cfquery name="local.generateexcel" datasource="addressbook"> 
@@ -114,7 +115,7 @@
 		<cfspreadsheet action="read" src="#theFile#" sheet=1 rows="100-200" format="csv" name="csvData">
 		<cfcontent type="application/vnd.ms-excel.sheet.macroEnabled.12" 
 		file="C:\ColdFusionBuilder2018\ColdFusion\cfusion\wwwroot\ADDRESSBOOK\Components\ExcelFiles\courses.xls">        
-    </cffunction>
+    </cffunction> 
     <cffunction name="generatepdf" access="remote">
     	<cfargument name="savecontent" >
     	<cfdocument format="PDF">
