@@ -20,8 +20,9 @@
 	<body>		
 				
 		 <!-- ======= Hero Section ======= -->
-		  <section  class="d-flex flex-column justify-content-center align-items-center">
-		  	<cfif #url.id# neq 0 AND #url.id# neq "">
+	<section  class="d-flex flex-column justify-content-center align-items-center">			  
+       <cfset url.id = #decodeFromUrl(url.id)#>
+	   <cfif #url.id# neq 0 AND #url.id# neq "">
 	   <cfset contactdetails = EntityNew("contactdetails")>
 	   <cfset contactdetails = EntityLoad('contactdetails', {id=#url.id#}, true)>
 	   <cfset id=contactdetails.getid()>

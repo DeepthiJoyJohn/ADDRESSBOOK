@@ -81,8 +81,9 @@
 										<td class="tail">#contactdetails[i].getemail()#</td>
 										<td class="tail">#contactdetails[i].getphone()#</td>				
 										<td class="tail">
+											
 				                    		<button type="button" class="editbutton" onclick="javascript:ColdFusion.Window.create('mywindow', 'EDIT CONTACT',
-												'createcontact.cfm?view=&id=#contactdetails[i].getid()#',{x:320,y:60,height:600,width:950,modal:false,closable:false,draggable:true,resizable:true,center:true,initshow:true,
+												'createcontact.cfm?view=&id=#encodeForURL(contactdetails[i].getid())#',{x:320,y:60,height:600,width:950,modal:false,closable:false,draggable:true,resizable:true,center:true,initshow:true,
 												minheight:200,minwidth:200,refreshOnShow:true})">
 				                    			<i class="fa fa-edit" aria-hidden="true"></i>
 				                    		</button>
