@@ -27,10 +27,11 @@ function passwordnullcheck(){
 		 
 }
 function testbox(value) {
-	
-	if (isNaN(value)) 
+	var passValue1 = document.getElementById("phone").value;	
+	if (isNaN(passValue1)) 
 	{
-		return (false);
+		alert ("phone No should be No");
+		document.getElementById("phone").value="";
 	} 
 	else
 	{

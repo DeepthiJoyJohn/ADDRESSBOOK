@@ -146,7 +146,6 @@
             </div>
 	</form>
     <cfif isDefined("form.Submit")>
-    	
             <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="createcontact" 
 	        form="#form#">
             <cflocation url="listing.cfm?view=false" addtoken="no">

@@ -16,8 +16,7 @@
 	    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
 	    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 	    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-	    <link rel="stylesheet" type="text/css" href="css/registration.css">
-	    	
+	    <link rel="stylesheet" type="text/css" href="css/registration.css">	    	
 	    <!-- Template Main CSS File -->
 	    <link href="assets/css/style.css" rel="stylesheet">
 	    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
@@ -94,18 +93,10 @@
 							                	
 							                	<input type="Submit" name="register"  class="btn btn-primary btn-lg" value="Register">
 							                 </div>			                
-							                 <cfif isDefined("Form.register")>
-											      <cfif #form.username# eq "">
-												  	<h3>User Name cant be null</h3>
-												  <cfelseif #form.emailname# eq "">
-												    <h3>Email cant be null</h3>
-												  <cfelseif Form.password1 NEQ form.password2>
-												  	<h1>Password confirmation does not match Password.</h1>
-												  <cfelse>
+							                 <cfif isDefined("Form.register")>											      
 								                  <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="signup" 
 								                  form="#form#" returnVariable="res">
-								                  <cfoutput>#res#</cfoutput> 
-								                  </cfif>    	
+								                  <cfoutput>#res#</cfoutput>								                     	
 							                 </cfif>
 			              				</div>
 							            <div class="w-25 p-3">
