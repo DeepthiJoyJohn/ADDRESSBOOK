@@ -36,7 +36,7 @@
 	<body>		
 		<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 		<!-- ======= Header ======= -->
-		<header id="header">
+		<header id="header">			
 			<div class="d-flex flex-column">
 		    	<div class="profile">        
 		        	<h1 class="text-light"><a href="index.html">Address Book</a></h1>        

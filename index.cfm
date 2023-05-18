@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	    <meta charset="utf-8">
-	    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	    
 	    <title>ADDRESSBOOK</title>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -16,7 +15,7 @@
 	    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
 	    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 	    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-	    <!-- Template Main CSS File -->
+	    <!-- Template Main CSS File -->      
 	    <link href="assets/css/style.css" rel="stylesheet">
 	    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
 		<script src="assets/vendor/aos/aos.js"></script>
@@ -30,7 +29,7 @@
 		<!-- Template Main JS File -->
 		<script src="assets/js/main.js"></script>	
 	</head>
-	<body>		
+	<body>				
 		<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 		<!-- ======= Header ======= -->
 		<header id="header">
@@ -46,11 +45,12 @@
 			        </ul>
 		      </nav>
 		    </div>
+		    
 		 </header>
 	  	 <!-- End Header -->
 		 <!-- ======= Hero Section ======= -->
 		  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-		    
+		     
 		  </section><!-- End Hero -->
 	</body>
 </html>
