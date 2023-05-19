@@ -2,16 +2,22 @@
     <cffunction name="login" access="public">
         <cfargument name="Uname">
         <cfargument name="Pass">
-        <cfquery name="local.checklogin" datasource="addressbook">
-            SELECT username,id FROM login where username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR"> and 
-            password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
-        </cfquery> 
-        <cfif local.checklogin.RecordCount GTE 1>            
-            <cfset local.id=local.checklogin.id>
-        <cfelse>
-            <cfset local.id=0>
-        </cfif>
-        <cfreturn local.id>
+        <cftry>
+	         <cfquery name="local.checklogin" datasource="addressbook">
+	            SELECT username,id FROM login where username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR"> and 
+	            password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
+	         </cfquery> 	       
+	         <cfif local.checklogin.RecordCount GTE 1>            
+	            <cfset local.id=local.checklogin.id>
+	         <cfelse>
+	            <cfset local.id=0>
+	         </cfif>
+	         <cfreturn local.id>
+	         <cfcatch type="any">
+				  <p><strong>Apologies, an error has occurred. 
+					Please try again later.<strong><p>
+			 </cfcatch>
+        </cftry>
     </cffunction>
     <cffunction name="signup" access="public">
         <cfargument name="form">

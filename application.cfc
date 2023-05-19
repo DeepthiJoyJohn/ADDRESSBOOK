@@ -14,12 +14,9 @@
 			<cfinclude template="#ARGUMENTS.TargetPage#">
 			<cfif #cgi.HTTP_REFERER# EQ "">				
 				<script language="javascript">
-
 				     window.location.href="index.cfm";
-				
 				</script>			 
-			</cfif>	
-					
+			</cfif>
 	<cfreturn true />
     </cffunction>	
 </cfcomponent>

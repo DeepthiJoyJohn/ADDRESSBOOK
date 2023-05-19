@@ -17,7 +17,7 @@
 		<!-- Template Main JS File -->
 		<script src="assets/js/main.js"></script>	
 	</head>
-	<body>		
+	<body>	
 				
 		 <!-- ======= Hero Section ======= -->
 	<section  class="d-flex flex-column justify-content-center align-items-center">			  
