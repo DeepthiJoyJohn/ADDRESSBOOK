@@ -1,3 +1,8 @@
+window.onunload = refreshParent;
+    function refreshParent() {
+        window.opener.location.reload();
+		window.close();
+    }
 function validate(){
 	 var passValue1 = document.getElementById("password1").value;
 	 var passValue2 = document.getElementById("password2").value;
@@ -10,6 +15,18 @@ function validate(){
 		 	 }	
 		 }
 		 
+}
+function validateemail(){
+	var emailname = document.getElementById("emailname").value;	
+		if(emailname=="" || emailname==null){
+			 
+				document.getElementById("emailspan").innerHTML="EMAIL CANT BR NULL!!";
+				document.getElementById("emailspan").style.color="red";
+		}else{
+				 document.getElementById("emailspan").innerHTML="";
+	    }	
+		
+		
 }
 function passwordnullcheck(){
 	 var passValue1 = document.getElementById("Pass").value;

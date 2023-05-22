@@ -21,37 +21,42 @@
     </cffunction>
     <cffunction name="signup" access="public">
         <cfargument name="form">
+		<cfset local.structregistration=StructNew()>
+		<cfset value=StructInsert(local.structregistration, "outputspan", "Registered, please login")>
+		<cfset value=StructInsert(local.structregistration, "usernamespan", "")> 
+		<cfset value=StructInsert(local.structregistration, "emailspan", "")>
+		<cfset value=StructInsert(local.structregistration, "passwordspan", "")>					            
         <cfquery name="local.signup" datasource="addressbook">
             SELECT username FROM login where username=
             <cfqueryparam value="#form.username #" cfsqltype="CF_SQL_VARCHAR">
         </cfquery>
-        <cfif local.signup.RecordCount GTE 1>   
-            <cfset local.signuptxt="AlreadyExists">
+        <cfif local.signup.RecordCount GTE 1>  
+		    <cfif not structKeyExists(local.structregistration,"username")>
+            	<cfset value=StructUpdate(local.structregistration, "outputspan", "AlreadyExists")> 
+			<cfelse>
+					<cfset value=StructUpdate(local.structregistration, "outputspan", "")> 
+			</cfif> 
         <cfelse>
         	<cfif #form.username# eq "">
-				<h3>User Name cant be null</h3>
-				<cfabort>
+				<cfset value=StructUpdate(local.structregistration, "usernamespan", "User Name cant be null")>
+				<cfset value=StructUpdate(local.structregistration, "outputspan", "")> 				
 			<cfelseif #form.emailname# eq "">
-		    	<h3>Email cant be null</h3>
-		    	<cfabort>
-			<cfelseif Form.password1 NEQ form.password2>
-				<h1>Password confirmation does not match Password.</h1>
-				<cfabort>
-			<cfelse>
-	            <cfquery name="local.getlastid" datasource="addressbook">
-				    SELECT CASE WHEN MAX(id) IS NULL THEN 1 ELSE MAX(id)+1 END AS id FROM login
-			    </cfquery>            
+				<cfset value=StructUpdate(local.structregistration, "emailspan", "Email cant be null")>
+				<cfset value=StructUpdate(local.structregistration, "outputspan", "")>
+			<cfelseif Form.password1 NEQ form.password2>				
+				<cfset value=StructUpdate(local.structregistration, "passwordspan", "Password confirmation does not match Password")>
+				<cfset value=StructUpdate(local.structregistration, "outputspan", "")>
+			<cfelse>	                        
 	            <cfquery name="local.signup" datasource="addressbook">
 	                insert into login (id,username,password,email) VALUES
-	                (<cfqueryparam value="#local.getlastid.id#" cfsqltype="CF_SQL_INTEGER">,
-	                <cfqueryparam value="#form.username#" cfsqltype="CF_SQL_VARCHAR">,
+	                (id,<cfqueryparam value="#form.username#" cfsqltype="CF_SQL_VARCHAR">,
 	                <cfqueryparam value="#form.password1#" cfsqltype="CF_SQL_VARCHAR">,
 	                <cfqueryparam value="#form.emailname#" cfsqltype="CF_SQL_VARCHAR">)
 	            </cfquery>
-	            <cfset local.signuptxt="Registered, please login ">
+			    <cfset value=StructUpdate(local.structregistration, "outputspan", "Registered Please Login")>
         	</cfif>
         </cfif>           
-        <cfreturn local.signuptxt>
+        <cfreturn local.structregistration>
     </cffunction>
     <cffunction name="createcontact" access="public">
         <cfargument name="form"> 
@@ -62,44 +67,42 @@
             nameconflict="makeunique">
             <cfset local.filename="#cffile.serverdirectory#/#cffile.serverfile#">            
    	    </cfif> 
+		<cfset local.structcreatecontact=StructNew()>
+		<cfset value=StructInsert(local.structcreatecontact, "titlemssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "firstnamemssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "lastnamemssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "dobmssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "addressmssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "streetmssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "emailmssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "phonemssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "useridmssg", "")>
+		<cfset value=StructInsert(local.structcreatecontact, "gendermssg", "")>
    	    <cfif #form.title# EQ "">
-   	    	<h3> Title Cant be null</h>
-   	    	<cfabort>
-   	    <cfelseif #form.firstname# EQ "">
-   	    	<h3> Firstname Cant be null</h>
-   	    	<cfabort> 
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "titlemssg", "Title cant be null")>
+   	    <cfelseif #form.firstname# EQ "">   	    	
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "firstnamemssg", "Firstname Cant be null")>
    	    <cfelseif #form.lastname# EQ "">
-   	    	<h3> Lastname Cant be null</h>
-   	    	<cfabort>
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "lastnamemssg", "Lastname Cant be null")>
    	    <cfelseif #form.gender# EQ "">
-   	    	<h3> Gender Cant be null</h>
-   	    	<cfabort>
-   	    <cfelseif #form.dob# EQ null>
-   	    	<h3> DOB Cant be null</h>
-   	    	<cfabort>
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "gendermssg", "Lastname Cant be null")>
+   	    <cfelseif #form.dob# EQ "">
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "dobmssg", "DOB Cant be null")>
    	    <cfelseif #form.address# EQ "">
-   	    	<h3> Address Cant be null</h>
-   	    	<cfabort>
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "addressmssg", "DOB Cant be null")>
    	   <cfelseif #form.street# EQ "">
-   	    	<h3> street Cant be null</h>
-   	    	<cfabort>
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "streetmssg", "DOB Cant be null")>
    	   <cfelseif #form.email# EQ "">
-   	    	<h3> DOB Cant be null</h>
-   	    	<cfabort>
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "emailmssg", "Email Cant be null")>
    	   <cfelseif #form.phone# EQ "">   	   
-   	    	<h3> Phone Cant be null</h>
-   	    	<cfabort>
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "phonemssg", "Phone Cant be null")>
    	   <cfelseif #session.userid# EQ "">
-   	    	<h3> Userid Cant be null</h>
-   	    	<cfabort>
-   	   <cfelse>  
-	        <cfquery name="local.getlastid" datasource="addressbook">
-			    SELECT CASE WHEN MAX(id) IS NULL THEN 1 ELSE MAX(id)+1 END AS id FROM contactdetails
-		    </cfquery>
+   	    	<cfset value=StructUpdate(local.structcreatecontact, "useridmssg", "Phone Cant be null")>
+   	   <cfelse>  	        
 	        <cfquery name="local.createcontact" datasource="addressbook">
 	            insert into contactdetails (id,title,firstname,lastname,gender,dob,photo,address,
 	            street,email,phone,createdby) VALUES
-	            (<cfqueryparam value="#local.getlastid.id#" cfsqltype="CF_SQL_INTEGER">,
+	            (id,
 	            <cfqueryparam value="#form.title#" cfsqltype="CF_SQL_VARCHAR">,
 	            <cfqueryparam value="#form.firstname#" cfsqltype="CF_SQL_VARCHAR">,
 	            <cfqueryparam value="#form.lastname#" cfsqltype="CF_SQL_VARCHAR">,
@@ -140,7 +143,7 @@
             street=<cfqueryparam value="#form.street#" cfsqltype="CF_SQL_VARCHAR">,
             email=<cfqueryparam value="#form.email#" cfsqltype="CF_SQL_VARCHAR">,
             phone=<cfqueryparam value="#form.phone#" cfsqltype="CF_SQL_VARCHAR"> where id="#form.id#"            
-        </cfquery>        
+        </cfquery>
     </cffunction>
     <cffunction name="delete" access="remote">                 
         <cfquery name="local.delete" datasource="addressbook">

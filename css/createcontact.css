@@ -14,14 +14,12 @@ td{
 }
 .username{
   color: blue;
-  margin-left:115px;
-  
-
+  margin-left:50px;
 }
 .button {
-  background-color: #c5242c; /* Green */
+  background-color: red; /* Green */
   border: none;
-  color: white;
+  color: rgb(214, 68, 68);
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -57,12 +55,14 @@ td{
   color: red;
   float:right;
   padding:5px;
+  background-col
 
 }
-.fa-print{
-  color: blue;
+.fa-printer{
+  color: white;
   float:right;
   padding:5px;
+
 
 }
 .fa-edit{
@@ -87,11 +87,26 @@ button.button {
   font-size: 12px;
   height:20px;
   border-radius: 8px;
-  margin-left:80px;
+  margin-left:15px;
+}
+button.logout {
+  background-color: #9ebfe0; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  height:20px;
+  border-radius: 8px;
+  margin-left:15px;
+  float:right;
+  font-weight: bold;
+
 }
 
 button.editbutton {
-  background-color: white; 
+  background-color: #9ebfe0;
   border: none;
   color: blue;
   text-align: center;
@@ -99,9 +114,10 @@ button.editbutton {
   display: inline-block;
   font-size: 12px;  
   border-radius: 8px;
+  padding:5px;
 }
 button.printbutton {
-  background-color: white; 
+  
   border: none;
   color: blue;
   text-align: right;
@@ -110,11 +126,13 @@ button.printbutton {
   display: inline-block;
   font-size: 12px;  
   border-radius: 8px;
+  background-color: #9ebfe0; 
+  
   
 }
 div.scroll {       
         height: 500px;
-        width: 700px;
+        width: 1200px;
         overflow-y: scroll;
         margin-left:100px;
       }
@@ -128,14 +146,26 @@ div.scroll {
 }
 td.head{
 	font-weight: bold;	
-	width:200px;
+	width:250px;
+	text-align:center;
+	font-family: 'Arial';
+}
+td.headlong{
+	font-weight: bold;	
+	width:250px;
 	text-align:center;
 	font-family: 'Arial';
 }
 td.tail{
 	text-align:center;	
-	width:200px;
+	width:250px;
 	font-family: 'Arial';
+}
+td.taillong{
+	text-align:center;	
+	width:250px;
+	font-family: 'Arial';
+  display:inline-block;
 }
 .listingsub{
   
@@ -143,12 +173,20 @@ td.tail{
   
 }
 .title2{
-  width: 150px;
+  width: 1300px;
   height: 30px;
   overflow: hidden;
   margin-left:1px;
   padding: 10px;
   background: #FFFFFF;
+  background-color: #9ebfe0;
   
+}
+.logout{
+  color: #FFFFFF;
+}
+.messagecolor{
+  color: red;
+  background-color: red;
 }
 

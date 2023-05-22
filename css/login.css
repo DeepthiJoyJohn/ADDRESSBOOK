@@ -185,7 +185,7 @@ button.button {
 }
 
 button.editbutton {
-  background-color: white; 
+  
   border: none;
   color: blue;
   text-align: center;
@@ -195,7 +195,7 @@ button.editbutton {
   border-radius: 8px;
 }
 button.printbutton {
-  background-color: white; 
+  
   border: none;
   color: blue;
   text-align: right;
