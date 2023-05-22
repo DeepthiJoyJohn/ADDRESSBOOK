@@ -169,11 +169,10 @@
 		file="C:\ColdFusionBuilder2018\ColdFusion\cfusion\wwwroot\ADDRESSBOOK\Components\ExcelFiles\courses.xls">        
     </cffunction> 
     <cffunction name="generatepdf" access="remote">
-    	<cfargument name="savecontent" >
-    	<cfdocument format="PDF">
-    		<cfoutput >
-    			#arguments.savecontent#
-    		</cfoutput>	
-    	</cfdocument> 
+    	<cfquery name="local.generatepdf" datasource="addressbook"> 
+	       SELECT firstname,email,phone,photo 
+	       FROM contactdetails where createdby="#session.userid#" 
+		</cfquery> 
+    	<cfreturn local.generatepdf>
     </cffunction>
 </cfcomponent>  

@@ -17,7 +17,7 @@
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>	
 		<script src="js/registration.js" type="text/javascript"></script>
 		<script src="js/listing.js" type="text/javascript"></script>
-		<script src="js/excel.js" type="text/javascript"></script>	
+		<script src="js/excel.js" type="text/javascript"></script>	 
 	</head>
 	<body>
 	<cfset session.key = generateSecretKey("AES") />
@@ -90,11 +90,30 @@
 						#strContent#
 					</cfoutput>
 					<cfif isDefined("form.pdfbtn")>
-						<cfdocument format="pdf" >
-							<cfoutput>
-								#strContent#
-							</cfoutput>	             	
-						</cfdocument>   	
+						<cfinvoke component="ADDRESSBOOK.Components.addressbook" method="generatepdf" 
+					    form="#form#" returnVariable="res">	  
+						<cfdocument format="PDF" backgroundVisible = "yes">
+							<cfoutput >
+								<table name="pdftable">
+									<tr>
+										<td class="head">Contact</td>
+										<td class="head">Name</td>
+										<td class="head">Email</td>
+										<td class="head">Phone</td>
+									</tr>
+									<cfset slno=1>
+									<cfloop query="res">
+									<tr>
+										<td class="head">#slno#</td>
+										<td class="head">#res.firstname#</td>
+										<td class="head">#res.email#</td>
+										<td class="head">#res.phone#</td>
+									</tr>
+									<cfset slno=slno+1>
+									</cfloop>
+								</table>
+							</cfoutput>	
+						</cfdocument> 	
 					</cfif>
 					<cfif isDefined("form.logout")>				    
 						<cfset StructClear(session)>
