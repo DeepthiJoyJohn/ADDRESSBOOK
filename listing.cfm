@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <cfif #session.userid# eq "">
-	<cflocation url="index.cfm">
+	<cflocation url="login.cfm">
 </cfif>
 <html lang="en">
 	<head>	    
@@ -53,7 +53,7 @@
 								</tr>
 							<cfscript>
 								ORMReload();
-								contactdetails = EntityLoad('contactdetails',{createdby="#session.userid#"});
+								contactdetails = EntityLoad('contactdetails',{createdby="#session.userid#",flag="ACTIVE"});
 								n=arraylen(contactdetails);						
 							</cfscript>
 							
@@ -90,38 +90,11 @@
 						#strContent#
 					</cfoutput>
 					<cfif isDefined("form.pdfbtn")>
-						<cfinvoke component="ADDRESSBOOK.Components.addressbook" method="generatepdf" 
-					    form="#form#" returnVariable="res">
-						<cfheader name="Content-Disposition" value="attachment; filename=myDoc.pdf">
-						<cfcontent type="application/pdf">	  
-						<cfdocument format="PDF">
-						    <cfoutput>
-								<table style="border:1px solid">
-									<thead>
-										<tr>
-											<td style="width:120px;text-align:center;"><b>SL:No</b></td>
-											<td style="width:200px;text-align:center;"><b>Name</b></td>
-											<td style="width:200px;text-align:center;"><b>Email</b></td>
-											<td style="width:150px;text-align:center;"><b>Phone</b></td>
-										</tr>
-									</thead>
-									<cfset slno=1>
-									<cfloop query="res">
-										<tr>
-											<td style="width:120px;text-align:center;">#slno#</td>
-											<td style="width:200px;text-align:left;">#res.firstname#</td>
-											<td style="width:200px;text-align:left;">#res.email#</td>
-											<td style="width:150px;text-align:left;">#res.phone#</td>
-										</tr>
-										<cfset slno=slno+1>
-									</cfloop>
-								</table>
-							</cfoutput>
-						</cfdocument>
+						<cflocation url="generatepdf.cfm">
 					</cfif>
 					<cfif isDefined("form.logout")>				    
 						<cfset StructClear(session)>
-						<cflocation url="index.cfm"> 	
+						<cflocation url="login.cfm" addtoken="no"> 	
 					</cfif>
 				</div>
         	</cfform>

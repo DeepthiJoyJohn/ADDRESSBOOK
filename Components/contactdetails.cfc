@@ -11,4 +11,5 @@
 	<cfproperty name="email"> 
 	<cfproperty name="phone"> 
 	<cfproperty name="createdby"> 
+	<cfproperty name="flag"> 
 </cfcomponent>

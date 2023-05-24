@@ -16,7 +16,7 @@
 			<cfinclude template="#ARGUMENTS.TargetPage#">
 			<cfif #cgi.HTTP_REFERER# EQ "" && #session.username# EQ "">				
 				<script language="javascript">
-				     window.location.href="index.cfm";
+				     window.location.href="login.cfm";
 				</script>			 
 			</cfif>
 	<cfreturn true />

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 	<head>	    
 		<title>ADDRESSBOOK</title>	    
@@ -26,76 +25,85 @@
 		</header>	  	 
 		<section  class="d-flex flex-column justify-content-center align-items-center">
 		  	<cfform id="form" name="form" method="post" action="">
+				<cfset usernamemessage="">	
+				<cfset emailmessage="">
+				<cfset passwordmessage="">
+				<cfset passwordmessage1="">
+				<cfset passwordmessage2="">
+				<cfset outputmessage="">
 				<cfif isDefined("Form.register")>											      
 					<cfinvoke component="ADDRESSBOOK.Components.addressbook" method="signup" 
 					form="#form#" returnVariable="res">	
-					<cfset usernamemessage=#res.usernamespan#>	
-					<cfset emailmessage=#res.emailspan#>
-					<cfset passwordmessage=#res.passwordspan#>
-					<cfset outputmessage=#res.outputspan#>
-				<cfelse>
-					<cfset usernamemessage="">	
-					<cfset emailmessage="">
-					<cfset passwordmessage="">
-					<cfset outputmessage="">
+					<cfif  #ArrayContains(res, "usernamemessage")#>
+						<cfset usernamemessage="Required">
+					</cfif>
+					<cfif  #ArrayContains(res, "emailmessage")#>
+						<cfset emailmessage="Required">
+					</cfif>
+					<cfif  #ArrayContains(res, "password1")#>
+						<cfset passwordmessage1="Required">
+					</cfif>
+					<cfif  #ArrayContains(res, "password2")#>
+						<cfset passwordmessage2="Required">
+					</cfif>
+					<cfif  #ArrayContains(res, "passwordmissmatch")#>
+						<cfset passwordmessage="Password Mismatch">
+					</cfif>
+					<cfif  #ArrayContains(res, "Already Exists")#>
+						<cfset outputmessage="Already Exists">
+					</cfif>
+					<cfif  #ArrayContains(res, "Registered Please Login")#>
+						<cfset outputmessage="Registered Successfully <a href='login.cfm'>Continue</a>">
+						
+					</cfif>
 				</cfif>
-				<div class="container h-100">
-			    	<div class="row d-flex justify-content-center align-items-center h-100">
-			      		<div class="col-lg-12 col-xl-11">
-			        		<div class="card text-black" style="border-radius: 25px;">
-			          			<div>
-			            			<div class="row justify-content-center">			            
-			              				<div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-			               					<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>			                
-			                  				<div class="d-flex flex-row align-items-center mb-4">
-			                    				<i class="fas fa-user fa-lg me-3 fa-fw"></i>
-		                    					<div class="form-outline flex-fill mb-0">
-							                    	<input type="text" name="username" maxlength="15" id="form3Example1c" class="form-control" required="yes"/>
-							                        <label class="form-label" for="form3Example1c">User Name</label>
-													<span class="messagecolor" id="usernamespan"><cfoutput>#usernamemessage#</cfoutput></span>
-		                    					</div>
-			                  				</div>
-			                  				<div class="d-flex flex-row align-items-center mb-4">
-			                    				<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-												<div class="form-outline flex-fill mb-0">
-													<cfinput type="email" name="emailname"  id="emailname" class="form-control" required="yes"/>
-													<label class="form-label" for="form3Example3c">Your Email</label>
-													<span class="messagecolor" id="emailspan"><cfoutput>#emailmessage#</cfoutput></span>
-												</div>
-			                  				</div>
-			                  				<div class="d-flex flex-row align-items-center mb-4">
-			                    				<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-												<div class="form-outline flex-fill mb-0">
-													<input type="password" id="password1"  name="password1" class="form-control" required="yes"/>
-													<label class="form-label" for="form3Example4c">Password</label>
-													<span class="messagecolor" id="paswordspan"><cfoutput>#passwordmessage#</cfoutput></span>
-												</div>
-			                  				</div>
-			                  				<div class="d-flex flex-row align-items-center mb-4">
-			                    				<i class="fas fa-key fa-lg me-3 fa-fw"></i>
-												<div class="form-outline flex-fill mb-0">
-													<input type="password" id="password2"  name="password2" class="form-control" required="yes"/>
-													<label class="form-label" for="form3Example4cd">Repeat your password</label>
-												</div>
-			                  				</div>
-			                  				<span id="message"></span>
-											<span class="messagecolor" id="output"><cfoutput>#outputmessage#</cfoutput></span>
-
-							                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">							                	
-							                	<input type="Submit" name="register"  class="btn btn-primary btn-lg" value="Register">
-							                </div>			                
-							                
-			              				</div>
-							            <div class="w-25 p-3">
-							                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-							                class="img-fluid" alt="Sample image">
-							            </div>
-			            			</div>
-			          			</div>
-			       	 		</div>
-			      		</div>
-			    	</div>
-			  	</div>			
+				<cfoutput>
+					<div class="container h-100">
+						<div class="row d-flex justify-content-center align-items-center h-100">
+							<div class="col-lg-12 col-xl-11">
+								<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>			                
+								<div class="d-flex flex-row align-items-center mb-4">
+									<i class="fas fa-user fa-lg me-3 fa-fw"></i>
+									<div class="form-outline flex-fill mb-0">
+										<input type="text" name="username" maxlength="15" id="username" class="form-control" required="yes"/>
+										<label class="form-label" for="form3Example1c">User Name</label>
+										<span id="usernamespan">#usernamemessage#</span>
+									</div>
+								</div>
+								<div class="d-flex flex-row align-items-center mb-4">
+									<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+									<div class="form-outline flex-fill mb-0">
+										<input type="email" name="emailname"  id="emailname" class="form-control" required="yes"/>
+										<label class="form-label" for="form3Example3c">Your Email</label>
+										<span id="emailspan">#emailmessage#</span>
+									</div>
+								</div>
+								<div class="d-flex flex-row align-items-center mb-4">
+									<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+									<div class="form-outline flex-fill mb-0">
+										<input type="password" id="password1"  name="password1" class="form-control" required="yes"/>
+										<label class="form-label" for="form3Example4c">Password</label>
+										<span id="paswordspan">#passwordmessage#</span>
+										<span id="paswordspan1">#passwordmessage1#</span>
+									</div>
+								</div>
+								<div class="d-flex flex-row align-items-center mb-4">
+									<i class="fas fa-key fa-lg me-3 fa-fw"></i>
+									<div class="form-outline flex-fill mb-0">
+										<input type="password" id="password2"  name="password2" class="form-control" required="yes"/>
+										<label class="form-label" for="form3Example4cd">Repeat your password</label>
+										<span id="paswordspan2">#passwordmessage2#</span>
+									</div>
+								</div>
+								<span id="message"></span>
+								<span class="messagecolor" id="output"><cfoutput>#outputmessage#</cfoutput></span>
+								<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">							                	
+									<input type="Submit" name="register"  onclick="javascript:registrationnullcheck()" class="btn btn-primary btn-lg" value="Register">
+								</div>	
+							</div>
+						</div>
+					</div>		
+				</cfoutput>	
 			</cfform>		    
 		</section>	
 	</body>

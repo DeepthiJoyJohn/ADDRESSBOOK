@@ -1,67 +1,80 @@
 <cfcomponent output="false">
-    <cffunction name="login" access="public">
+    <cffunction name="login" access="remote">
         <cfargument name="Uname">
-        <cfargument name="Pass">
-        <cftry>
-	         <cfquery name="local.checklogin" datasource="addressbook">
-	            SELECT 					
-					id 
+		<cfargument name="Pass">
+		<cfset session.username="">
+		<cfset session.userid="">
+		<cfset local.errorarray=ArrayNew(1)>
+		<cfif arguments.Uname eq "">
+			<cfset ArrayAppend(local.errorarray, "Username Required")> 
+		</cfif>
+		<cfif arguments.Pass eq "">
+			<cfset ArrayAppend(local.errorarray, "Password Required")> 
+		</cfif>
+		<cfif (arguments.Uname NEQ "") &&  (arguments.Pass NEQ "")>
+			<cfquery name="local.checklogin" datasource="addressbook">
+				SELECT 					
+					id,username  
 				FROM 
 					login 
 				WHERE 
-					username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR"> 
-					and password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
-	         </cfquery> 	       
-	         <cfif local.checklogin.RecordCount GTE 1>            
-	            <cfset local.id=local.checklogin.id>
-	         <cfelse>
-	            <cfset local.id=0>
-	         </cfif>
-	         <cfreturn local.id>
-			<cfcatch type="any">
-				<p><strong>Apologies, an error has occurred. 
-				Please try again later.<strong><p>
-			</cfcatch>
-        </cftry>
+					username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR">
+					AND password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
+			</cfquery> 	       
+			<cfif local.checklogin.RecordCount GTE 1> 
+				<cflock TYPE="EXCLUSIVE" timeout = "60" SCOPE="SESSION">           
+					<cfset session.username="#local.checklogin.username#">
+					<cfset session.userid="#local.checklogin.id#">	
+				</cflock>	
+				<cfset ArrayAppend(local.errorarray, "Correct")> 
+			<cfelse>
+				<cfset ArrayAppend(local.errorarray, "Wrong Credendials")> 
+			</cfif>
+		</cfif>
+		<cfreturn local.errorarray>
     </cffunction>
     <cffunction name="signup" access="public">
         <cfargument name="form">
-		<cfset local.structregistration=StructNew()>
-		<cfset value=StructInsert(local.structregistration, "outputspan", "Registered, please login")>
-		<cfset value=StructInsert(local.structregistration, "usernamespan", "")> 
-		<cfset value=StructInsert(local.structregistration, "emailspan", "")>
-		<cfset value=StructInsert(local.structregistration, "passwordspan", "")>					            
-        <cfquery name="local.signup" datasource="addressbook">
-            SELECT username FROM login where username=
-            <cfqueryparam value="#form.username #" cfsqltype="CF_SQL_VARCHAR">
-        </cfquery>
-        <cfif local.signup.RecordCount GTE 1>  
-		    <cfif not structKeyExists(local.structregistration,"username")>
-            	<cfset value=StructUpdate(local.structregistration, "outputspan", "AlreadyExists")> 
-			<cfelse>
-					<cfset value=StructUpdate(local.structregistration, "outputspan", "")> 
-			</cfif> 
-        <cfelse>
-        	<cfif form.username eq "">
-				<cfset value=StructUpdate(local.structregistration, "usernamespan", "User Name cant be null")>
-				<cfset value=StructUpdate(local.structregistration, "outputspan", "")> 				
-			<cfelseif form.emailname eq "">
-				<cfset value=StructUpdate(local.structregistration, "emailspan", "Email cant be null")>
-				<cfset value=StructUpdate(local.structregistration, "outputspan", "")>
-			<cfelseif Form.password1 NEQ form.password2>				
-				<cfset value=StructUpdate(local.structregistration, "passwordspan", "Password confirmation does not match Password")>
-				<cfset value=StructUpdate(local.structregistration, "outputspan", "")>
-			<cfelse>	                        
-	            <cfquery name="local.signup" datasource="addressbook">
-	                insert into login (id,username,password,email) VALUES
-	                (id,<cfqueryparam value="#form.username#" cfsqltype="CF_SQL_VARCHAR">,
-	                <cfqueryparam value="#form.password1#" cfsqltype="CF_SQL_VARCHAR">,
-	                <cfqueryparam value="#form.emailname#" cfsqltype="CF_SQL_VARCHAR">)
-	            </cfquery>
-			    <cfset value=StructUpdate(local.structregistration, "outputspan", "Registered Please Login")>
-        	</cfif>
-        </cfif>           
-        <cfreturn local.structregistration>
+		<cfset local.errorarray=ArrayNew(1)>
+		<cfif form.username eq "">
+			<cfset ArrayAppend(local.errorarray, "usernamemessage")>
+		</cfif>  
+		<cfif form.emailname eq "">
+			<cfset ArrayAppend(local.errorarray, "emailmessage")>
+		</cfif>
+		<cfif form.password1 eq "">
+			<cfset ArrayAppend(local.errorarray, "password1")>
+		</cfif>
+		<cfif form.password2 eq "">
+			<cfset ArrayAppend(local.errorarray, "password2")>
+		</cfif>
+		<cfif Form.password1 NEQ form.password2>				
+			<cfset ArrayAppend(local.errorarray, "passwordmissmatch")>	
+		</cfif>
+		<cfif (form.username neq "") && (form.emailname neq "") && (form.password1 eq form.password2)>	
+			<cfquery name="local.signup" datasource="addressbook">
+            	SELECT 
+					username 
+				FROM 
+					login 
+				WHERE 
+					username=<cfqueryparam value="#form.username #" cfsqltype="CF_SQL_VARCHAR">
+        	</cfquery>
+			<cfif local.signup.RecordCount GTE 1>  
+				<cfset ArrayAppend(local.errorarray, "Already Exists")>  
+			<cfelse>			                             
+				<cfquery name="local.signup" datasource="addressbook">
+					INSERT INTO 
+						login (username,password,email) 
+					VALUES
+						(<cfqueryparam value="#form.username#" cfsqltype="CF_SQL_VARCHAR">,
+						<cfqueryparam value="#form.password1#" cfsqltype="CF_SQL_VARCHAR">,
+						<cfqueryparam value="#form.emailname#" cfsqltype="CF_SQL_VARCHAR">)
+				</cfquery>				
+				<cfset ArrayAppend(local.errorarray, "Registered Please Login")>  
+			</cfif>			
+		</cfif>
+        <cfreturn local.errorarray>
     </cffunction>
     <cffunction name="createcontact" access="public">
         <cfargument name="form"> 
@@ -72,87 +85,101 @@
             nameconflict="makeunique">
             <cfset local.filename="#cffile.serverdirectory#/#cffile.serverfile#">            
    	    </cfif> 
-		<cfset local.structcreatecontact=StructNew()>
-		<cfset value=StructInsert(local.structcreatecontact, "titlemssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "firstnamemssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "lastnamemssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "dobmssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "addressmssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "streetmssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "emailmssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "phonemssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "useridmssg", "")>
-		<cfset value=StructInsert(local.structcreatecontact, "gendermssg", "")>
+		<cfset local.errorarray=ArrayNew(1)>
+		<cfset local.flag="true"> 		
    	    <cfif #form.title# EQ "">
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "titlemssg", "Title cant be null")>
-   	    <cfelseif #form.firstname# EQ "">   	    	
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "firstnamemssg", "Firstname Cant be null")>
-   	    <cfelseif #form.lastname# EQ "">
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "lastnamemssg", "Lastname Cant be null")>
-   	    <cfelseif #form.gender# EQ "">
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "gendermssg", "Lastname Cant be null")>
-   	    <cfelseif #form.dob# EQ "">
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "dobmssg", "DOB Cant be null")>
-   	    <cfelseif #form.address# EQ "">
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "addressmssg", "DOB Cant be null")>
-   	   <cfelseif #form.street# EQ "">
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "streetmssg", "DOB Cant be null")>
-   	   <cfelseif #form.email# EQ "">
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "emailmssg", "Email Cant be null")>
-   	   <cfelseif #form.phone# EQ "">   	   
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "phonemssg", "Phone Cant be null")>
-   	   <cfelseif #session.userid# EQ "">
-   	    	<cfset value=StructUpdate(local.structcreatecontact, "useridmssg", "Phone Cant be null")>
-   	   <cfelse>  	        
+			<cfset ArrayAppend(local.errorarray, "titlemssg")> 
+			<cfset local.flag="false"> 
+		</cfif>
+   	    <cfif #form.firstname# EQ "">   	    	
+   	    	<cfset ArrayAppend(local.errorarray, "firstnamemssg")> 
+			<cfset local.flag="false"> 
+		</cfif> 
+   	    <cfif #form.lastname# EQ "">
+   	    	<cfset ArrayAppend(local.errorarray, "lastnamemssg")> 
+			<cfset local.flag="false"> 
+		</cfif>
+   	    <cfif #form.gender# EQ "">
+   	    	<cfset ArrayAppend(local.errorarray, "gendermssg")>
+			<cfset local.flag="false">  
+		</cfif>
+   	    <cfif #form.dob# EQ "">
+   	    	<cfset ArrayAppend(local.errorarray, "dobmssg")>
+			<cfset local.flag="false">  
+		</cfif>
+   	    <cfif #form.address# EQ "">
+   	    	<cfset ArrayAppend(local.errorarray, "addressmssg")>
+			<cfset local.flag="false">  
+		</cfif>
+   	    <cfif #form.street# EQ "">
+   	    	<cfset ArrayAppend(local.errorarray, "streetmssg")> 
+			<cfset local.flag="false"> 
+	    </cfif>
+   	    <cfif #form.email# EQ "">
+   	    	<cfset ArrayAppend(local.errorarray, "emailmssg")> 
+		</cfif>
+   	    <cfif #form.phone# EQ "">   	   
+   	    	<cfset ArrayAppend(local.errorarray, "phonemssg")> 
+			<cfset local.flag="false"> 
+   	    </cfif>
+   	   <cfif #session.userid# neq "" && local.flag neq "false">  	        
 	        <cfquery name="local.createcontact" datasource="addressbook">
-	            insert into contactdetails (id,title,firstname,lastname,gender,dob,photo,address,
-	            street,email,phone,createdby) VALUES
-	            (id,
-	            <cfqueryparam value="#form.title#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#form.firstname#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#form.lastname#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#form.gender#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#form.dob#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#local.filename#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#form.address#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#form.street#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#form.email#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#form.phone#" cfsqltype="CF_SQL_VARCHAR">,
-	            <cfqueryparam value="#session.userid#" cfsqltype="CF_SQL_INTEGER">
-	            )
+	            INSERT INTO 
+					contactdetails (title,firstname,lastname,gender,dob,photo,address,
+	            	street,email,phone,createdby) 
+				VALUES
+					(
+					<cfqueryparam value="#form.title#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#form.firstname#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#form.lastname#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#form.gender#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#form.dob#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#local.filename#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#form.address#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#form.street#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#form.email#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#form.phone#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#session.userid#" cfsqltype="CF_SQL_INTEGER">
+	           		 )
 	        </cfquery>
-		</cfif>        
+		</cfif>
+		<cfreturn local.errorarray>        
     </cffunction>
     <cffunction name="updatecontact" access="public">
         <cfargument name="form"> 
-        <cfset local.filename="">
+        <cfset local.filename="#form.photopath#">
         <cfif isDefined("form.photo") AND evaluate("form.photo") NEQ "" >
             <cffile action="upload" fileField="form.photo" destination="C:\Pictures" 
             accept="image/png,image/jpg,image/gif,image/jpeg"  
             nameconflict="makeunique">
-            <cfset local.filename="#cffile.serverdirectory#/#cffile.serverfile#">  
-        <cfelse>
-        	 <cfquery name="local.getphoto" datasource="addressbook">
-		    	SELECT photo FROM contactdetails where id="#form.id#"
-	         </cfquery>
-	         <cfset local.filename="#local.getphoto.photo#">          	          
+            <cfset local.filename="#cffile.serverdirectory#/#cffile.serverfile#">		
    	    </cfif>
         <cfquery name="local.updatecontact" datasource="addressbook">
-            update contactdetails set title=<cfqueryparam value="#form.title#" cfsqltype="CF_SQL_VARCHAR">,
-            firstname=<cfqueryparam value="#form.firstname#" cfsqltype="CF_SQL_VARCHAR">,
-            lastname=<cfqueryparam value="#form.lastname#" cfsqltype="CF_SQL_VARCHAR">,
-            gender=<cfqueryparam value="#form.gender#" cfsqltype="CF_SQL_VARCHAR">,
-            dob=<cfqueryparam value="#form.dob#" cfsqltype="CF_SQL_DATE">,
-            photo=<cfqueryparam value="#local.filename#" cfsqltype="CF_SQL_VARCHAR">,
-            address=<cfqueryparam value="#form.address#" cfsqltype="CF_SQL_VARCHAR">,
-            street=<cfqueryparam value="#form.street#" cfsqltype="CF_SQL_VARCHAR">,
-            email=<cfqueryparam value="#form.email#" cfsqltype="CF_SQL_VARCHAR">,
-            phone=<cfqueryparam value="#form.phone#" cfsqltype="CF_SQL_VARCHAR"> where id="#form.id#"            
+            UPDATE 
+				contactdetails 
+			SET 
+				title=<cfqueryparam value="#form.title#" cfsqltype="CF_SQL_VARCHAR">,
+            	firstname=<cfqueryparam value="#form.firstname#" cfsqltype="CF_SQL_VARCHAR">,
+            	lastname=<cfqueryparam value="#form.lastname#" cfsqltype="CF_SQL_VARCHAR">,
+            	gender=<cfqueryparam value="#form.gender#" cfsqltype="CF_SQL_VARCHAR">,
+            	dob=<cfqueryparam value="#form.dob#" cfsqltype="CF_SQL_DATE">,				
+            	photo=<cfqueryparam value="#local.filename#" cfsqltype="CF_SQL_VARCHAR">,				
+            	address=<cfqueryparam value="#form.address#" cfsqltype="CF_SQL_VARCHAR">,
+            	street=<cfqueryparam value="#form.street#" cfsqltype="CF_SQL_VARCHAR">,
+            	email=<cfqueryparam value="#form.email#" cfsqltype="CF_SQL_VARCHAR">,
+            	phone=<cfqueryparam value="#form.phone#" cfsqltype="CF_SQL_VARCHAR"> 
+			WHERE 
+				id=<cfqueryparam value="#form.id#" cfsqltype="CF_SQL_INTEGER">          
         </cfquery>
     </cffunction>
     <cffunction name="delete" access="remote">                 
         <cfquery name="local.delete" datasource="addressbook">
-			delete from contactdetails where id=<cfqueryparam value="#url.id#" cfsqltype="CF_SQL_INTEGER">
+			UPDATE 
+				contactdetails 
+			SET 
+				flag="INACTIVE" 
+			WHERE 
+				id=<cfqueryparam value="#url.id#" cfsqltype="CF_SQL_INTEGER">
 		</cfquery>
         <cflocation url="../listing.cfm" addtoken="false">
     </cffunction>
@@ -168,14 +195,6 @@
 		    SpreadSheetAddRow(theSheet,"Name,email,phone");		  	
 		    SpreadsheetAddRows(theSheet,local.generateexcel); 
 		</cfscript>
-		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>		
-		
+		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>			
 	</cffunction> 
-    <cffunction name="generatepdf" access="remote">
-    	<cfquery name="local.generatepdf" datasource="addressbook"> 
-	       SELECT firstname,email,phone,photo 
-	       FROM contactdetails where createdby="#session.userid#" 
-		</cfquery> 
-    	<cfreturn local.generatepdf>
-    </cffunction>
 </cfcomponent>  

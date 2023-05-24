@@ -8,7 +8,6 @@
 	    <link href="assets/css/style.css" rel="stylesheet">	
 		<script src="js/registration.js" type="text/javascript"></script>
 	</head>
-	
 	<body>	
 		<header id="header">			
 			<div class="d-flex flex-column">
@@ -17,7 +16,7 @@
 		      	</div>
 		      	<nav id="navbar" class="nav-menu navbar">
 			        <ul>			          	
-			          	<li><a href="registration.cfm" class="nav-link scrollto"><i class="bx bx-log-out"></i> <span>SignUp</span></a></li>		          
+			          	<li><a href="index.cfm" class="nav-link scrollto"><i class="bx bx-log-out"></i> <span>Home</span></a></li>		          
 			        </ul>
 		        </nav>		      	
 		    </div>
