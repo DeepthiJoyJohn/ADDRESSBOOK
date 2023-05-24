@@ -96,28 +96,33 @@
                         </select>
                         <span><cfoutput>#titlemssg#</cfoutput></span>
                     </td>
-					<td><label class="form-label">First Name</label>
+					<td>
+                        <label class="form-label">First Name</label>
                         <input type="text" class="form-control-sm" name="firstname" maxlength="25" id="firstname" required="yes" value="<cfoutput>#firstname#</cfoutput>">
                         <span><cfoutput>#firstnamemssg#</cfoutput></span>
                     </td>
-					 <td><label class="form-label">Last Name</label><br>
-                         <input type="text" class="form-control-sm" name="lastname" maxlength="25" required="yes" value="<cfoutput>#lastname#</cfoutput>">
-                         <span><cfoutput>#lastnamemssg#</cfoutput></span>
+					 <td>
+                        <label class="form-label">Last Name</label><br>
+                        <input type="text" class="form-control-sm" name="lastname" maxlength="25" required="yes" value="<cfoutput>#lastname#</cfoutput>">
+                        <span><cfoutput>#lastnamemssg#</cfoutput></span>
                     </td> 
                 </tr>
                 <tr>
-					<td><label class="form-label">Gender</label>
+					<td>
+                        <label class="form-label">Gender</label>
                         <select class="form-select-sm" name="gender" id="gender" required="yes">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                         <span><cfoutput>#gendermssg#</cfoutput></span>
                     </td>
-                    <td><label class="form-label">DOB</label><br>
+                    <td>
+                        <label class="form-label">DOB</label><br>
                         <input class="form-control-sm" type="date" id="dob" name="dob" required="yes" value="<cfoutput>#dob#</cfoutput>">
                         <span><cfoutput>#dobmssg#</cfoutput></span>
                     </td>
-                    <td><label class="form-label">Upload Photo</label>
+                    <td>
+                        <label class="form-label">Upload Photo</label>
                         <input class="form-control-sm" type="file" name="photo" id="photo" value="<cfoutput>#photo#</cfoutput>">
 						<label class="form-label"><cfoutput>#photo#</cfoutput></label>
 					</td>                    
@@ -125,7 +130,7 @@
         </table>
         </div>
         <div class="profile">        
-		    <h5 class="text-light"><a href="index.html">Contact Details</a></h5>        
+		    <h5 class="text-light">Contact Details</h5>        
 		</div>
             <div class="container">
                 <table>
@@ -136,15 +141,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label class="form-label">Street  </label><br>
-                           <input type="text" class="form-control-sm" id="street" name="street" required="yes" value="<cfoutput>#street#</cfoutput>">
-                           <span><cfoutput>#streetmssg#</cfoutput></span>
+                        <td>
+                            <label class="form-label">Street  </label><br>
+                            <input type="text" class="form-control-sm" id="street" name="street" required="yes" value="<cfoutput>#street#</cfoutput>">
+                            <span><cfoutput>#streetmssg#</cfoutput></span>
                         </td>
-                        <td><label class="form-label">Email   </label><br>
-                           <input type="email" class="form-control-sm" id="email" name="email" required="yes" value="<cfoutput>#email#</cfoutput>">
-                           <span><cfoutput>#emailmssg#</cfoutput></span>
+                        <td>
+                            <label class="form-label">Email   </label><br>
+                            <input type="email" class="form-control-sm" id="email" name="email" required="yes" value="<cfoutput>#email#</cfoutput>">
+                            <span><cfoutput>#emailmssg#</cfoutput></span>
                         </td>
-                        <td><label class="form-label">Phone   </label><br>
+                        <td>
+                            <label class="form-label">Phone   </label><br>
                             <input type="text" class="form-control-sm" onkeyup="javascript:testbox(this.value)" id="phone" name="phone" required="yes" value="<cfoutput>#phone#</cfoutput>">
                            	<input type="hidden" id="id" name="id" value="<cfoutput>#id#</cfoutput>">
                             <span><cfoutput>#phonemssg#</cfoutput></span>
@@ -161,11 +169,10 @@
 	</form>
     
     <cfif isDefined("form.Update")>
-            <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="updatecontact" 
-	        form="#form#">
-            <cflocation url="listing.cfm" addtoken="no">
+        <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="updatecontact" 
+        form="#form#">
+        <cflocation url="listing.cfm" addtoken="no">
     </cfif>	    
-		</section>
-	<!-- End Hero -->
+	</section>
 	</body>
 </html>

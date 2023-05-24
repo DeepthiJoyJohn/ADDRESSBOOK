@@ -4,8 +4,13 @@
         <cfargument name="Pass">
         <cftry>
 	         <cfquery name="local.checklogin" datasource="addressbook">
-	            SELECT username,id FROM login where username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR"> and 
-	            password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
+	            SELECT 					
+					id 
+				FROM 
+					login 
+				WHERE 
+					username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR"> 
+					and password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
 	         </cfquery> 	       
 	         <cfif local.checklogin.RecordCount GTE 1>            
 	            <cfset local.id=local.checklogin.id>
@@ -13,10 +18,10 @@
 	            <cfset local.id=0>
 	         </cfif>
 	         <cfreturn local.id>
-	         <cfcatch type="any">
-				  <p><strong>Apologies, an error has occurred. 
-					Please try again later.<strong><p>
-			 </cfcatch>
+			<cfcatch type="any">
+				<p><strong>Apologies, an error has occurred. 
+				Please try again later.<strong><p>
+			</cfcatch>
         </cftry>
     </cffunction>
     <cffunction name="signup" access="public">
@@ -37,10 +42,10 @@
 					<cfset value=StructUpdate(local.structregistration, "outputspan", "")> 
 			</cfif> 
         <cfelse>
-        	<cfif #form.username# eq "">
+        	<cfif form.username eq "">
 				<cfset value=StructUpdate(local.structregistration, "usernamespan", "User Name cant be null")>
 				<cfset value=StructUpdate(local.structregistration, "outputspan", "")> 				
-			<cfelseif #form.emailname# eq "">
+			<cfelseif form.emailname eq "">
 				<cfset value=StructUpdate(local.structregistration, "emailspan", "Email cant be null")>
 				<cfset value=StructUpdate(local.structregistration, "outputspan", "")>
 			<cfelseif Form.password1 NEQ form.password2>				
@@ -163,11 +168,9 @@
 		    SpreadSheetAddRow(theSheet,"Name,email,phone");		  	
 		    SpreadsheetAddRows(theSheet,local.generateexcel); 
 		</cfscript>
-		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>
-		<cfspreadsheet action="read" src="#theFile#" sheet=1 rows="100-200" format="csv" name="csvData">
-		<cfcontent type="application/vnd.ms-excel.sheet.macroEnabled.12" 
-		file="C:\ColdFusionBuilder2018\ColdFusion\cfusion\wwwroot\ADDRESSBOOK\Components\ExcelFiles\courses.xls">        
-    </cffunction> 
+		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>		
+		
+	</cffunction> 
     <cffunction name="generatepdf" access="remote">
     	<cfquery name="local.generatepdf" datasource="addressbook"> 
 	       SELECT firstname,email,phone,photo 

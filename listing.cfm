@@ -91,29 +91,33 @@
 					</cfoutput>
 					<cfif isDefined("form.pdfbtn")>
 						<cfinvoke component="ADDRESSBOOK.Components.addressbook" method="generatepdf" 
-					    form="#form#" returnVariable="res">	  
-						<cfdocument format="PDF" backgroundVisible = "yes">
-							<cfoutput >
-								<table name="pdftable">
-									<tr>
-										<td class="head">Contact</td>
-										<td class="head">Name</td>
-										<td class="head">Email</td>
-										<td class="head">Phone</td>
-									</tr>
+					    form="#form#" returnVariable="res">
+						<cfheader name="Content-Disposition" value="attachment; filename=myDoc.pdf">
+						<cfcontent type="application/pdf">	  
+						<cfdocument format="PDF">
+						    <cfoutput>
+								<table style="border:1px solid">
+									<thead>
+										<tr>
+											<td style="width:120px;text-align:center;"><b>SL:No</b></td>
+											<td style="width:200px;text-align:center;"><b>Name</b></td>
+											<td style="width:200px;text-align:center;"><b>Email</b></td>
+											<td style="width:150px;text-align:center;"><b>Phone</b></td>
+										</tr>
+									</thead>
 									<cfset slno=1>
 									<cfloop query="res">
-									<tr>
-										<td class="head">#slno#</td>
-										<td class="head">#res.firstname#</td>
-										<td class="head">#res.email#</td>
-										<td class="head">#res.phone#</td>
-									</tr>
-									<cfset slno=slno+1>
+										<tr>
+											<td style="width:120px;text-align:center;">#slno#</td>
+											<td style="width:200px;text-align:left;">#res.firstname#</td>
+											<td style="width:200px;text-align:left;">#res.email#</td>
+											<td style="width:150px;text-align:left;">#res.phone#</td>
+										</tr>
+										<cfset slno=slno+1>
 									</cfloop>
 								</table>
-							</cfoutput>	
-						</cfdocument> 	
+							</cfoutput>
+						</cfdocument>
 					</cfif>
 					<cfif isDefined("form.logout")>				    
 						<cfset StructClear(session)>

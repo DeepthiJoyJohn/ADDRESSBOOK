@@ -156,6 +156,12 @@ td.headlong{
 	text-align:center;
 	font-family: 'Arial';
 }
+td.headpdf{
+	font-weight: bold;	
+	width:50px;
+	text-align:center;
+	font-family: 'Arial';
+}
 td.tail{
 	text-align:center;	
 	width:250px;
