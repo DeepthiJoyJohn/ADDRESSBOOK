@@ -195,6 +195,7 @@
 		    SpreadSheetAddRow(theSheet,"Name,email,phone");		  	
 		    SpreadsheetAddRows(theSheet,local.generateexcel); 
 		</cfscript>
-		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>					
+		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>	
+		 
 	</cffunction> 
 </cfcomponent>  
