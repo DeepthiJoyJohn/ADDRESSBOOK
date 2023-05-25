@@ -38,7 +38,7 @@
 				    <button type="submit" name="logout" class="logout"><i class="bx bx-log-out" aria-hidden="true"></i> Logout</button>                		                         
 	                <button type="button" onclick="javascript:generateexcel();" class="printbutton"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
 	                <button type="submit" name="pdfbtn" class="printbutton"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
-	                <button type="submit" name="pdfbtn" class="printbutton"><i class="fa fa-print" aria-hidden="true"></i></button> 
+	                <button type="submit" name="prtbtn" class="printbutton"><i class="fa fa-print" aria-hidden="true"></i></button> 
 	            </div>
 				<div class="listingsub">                              
 					<cfsavecontent variable="strContent"> 
@@ -54,10 +54,9 @@
 							<cfscript>
 								ORMReload();
 								contactdetails = EntityLoad('contactdetails',{createdby="#session.userid#",flag="ACTIVE"});
-								n=arraylen(contactdetails);						
+								noofentries=arraylen(contactdetails);						
 							</cfscript>
-							
-							<cfloop index="i" from="1" to="#n#">
+							<cfloop index="i" from="1" to="#noofentries#">
 								<cfif #contactdetails[i].getphoto()# NEQ "">
 									<cfimage action="read" source="#contactdetails[i].getphoto()#" name="myImage">
 								<cfelse>
@@ -90,7 +89,10 @@
 						#strContent#
 					</cfoutput>
 					<cfif isDefined("form.pdfbtn")>
-						<cflocation url="generatepdf.cfm">
+						<cflocation url="generatepdf.cfm?print=false">
+					</cfif>
+					<cfif isDefined("form.prtbtn")>
+						<cflocation url="generatepdf.cfm?print=true">
 					</cfif>
 					<cfif isDefined("form.logout")>				    
 						<cfset StructClear(session)>
