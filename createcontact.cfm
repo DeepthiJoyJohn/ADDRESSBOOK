@@ -25,8 +25,9 @@
             <cfset street="">
             <cfset email="">
             <cfset phone="">
-            <cfset displayedit="none">	
-            <cfset displaynew="block">
+            <cfset btnname="Submit">
+            <cfset btnvalue="Create & Close">            
+            <cfset display="block">
             <cfset url.id = decrypt(#url.id#, session.key, "AES", "HEX") />            
             <cfif #url.id# neq 0 AND #url.id# neq "">
                 <cfset contactdetails = EntityNew("contactdetails")>
@@ -41,13 +42,12 @@
                 <cfset address=contactdetails.getaddress()>
                 <cfset street=contactdetails.getstreet()>
                 <cfset email=contactdetails.getemail()>
-                <cfset phone=contactdetails.getphone()>	 
-                <cfset displayedit="block">	
-                <cfset displaynew="none">
+                <cfset phone=contactdetails.getphone()>	
+                <cfset btnname="Update">
+                <cfset btnvalue="Update & Close">                       
             </cfif>
-            <cfif #url.view# eq "true">
-                <cfset displayedit="none">	
-                <cfset displaynew="none">
+            <cfif url.view eq "true">
+                <cfset display="none">	
             </cfif>
             <cfset titlemssg="">
             <cfset firstnamemssg="">
@@ -62,129 +62,159 @@
                 <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="createcontact" 
                 form="#form#" returnVariable="res">
                 <cfset local.flag="true">
-                <cfif  #ArrayContains(res, "titlemssg")#>
+                <cfif  ArrayContains(res, "titlemssg")>
                     <cfset titlemssg="Required"> 
                     <cfset local.flag="false">
                 </cfif>
-                <cfif  #ArrayContains(res, "firstnamemssg")#>
+                <cfif  ArrayContains(res, "firstnamemssg")>
                     <cfset firstnamemssg="Required"> 
                     <cfset local.flag="false">
                 </cfif>
-                <cfif  #ArrayContains(res, "lastnamemssg")#>
+                <cfif  ArrayContains(res, "lastnamemssg")>
                     <cfset lastnamemssg="Required"> 
                     <cfset local.flag="false">
                 </cfif>
-                <cfif  #ArrayContains(res, "gendermssg")#>
+                <cfif  ArrayContains(res, "gendermssg")>
                     <cfset gendermssg="Required"> 
                     <cfset local.flag="false">
                 </cfif>
-                <cfif  #ArrayContains(res, "dobmssg")#>
+                <cfif  ArrayContains(res, "dobmssg")>
                     <cfset dobmssg="Required">
                     <cfset local.flag="false"> 
                 </cfif>
-                <cfif  #ArrayContains(res, "addressmssg")#>
+                <cfif  ArrayContains(res, "addressmssg")>
                     <cfset addressmssg="Required"> 
                 </cfif>
-                <cfif  #ArrayContains(res, "streetmssg")#>
+                <cfif  ArrayContains(res, "streetmssg")>
                     <cfset streetmssg="Required"> 
                 </cfif>
-                <cfif  #ArrayContains(res, "emailmssg")#>
+                <cfif  ArrayContains(res, "emailmssg")>
                     <cfset emailmssg="Required"> 
                 </cfif>
-                <cfif  #ArrayContains(res, "phonemssg")#>
+                <cfif  ArrayContains(res, "phonemssg")>
                     <cfset phonemssg="Required">
                     <cfset local.flag="false"> 
                 </cfif>
                 <cfif local.flag eq "true">
                     <cflocation url="listing.cfm?view=false" addtoken="no">
                 </cfif>
-            </cfif>
-            <form id="form" name="form" method="post" action="" enctype="multipart/form-data">            
-                <div class="profile">        
-                    <h5 class="text-light"><a href="index.html">Personal Details</a></h5>        
-                </div>        
-                <div class='container'>
-                    <table class="table">
-                        <tr>
-                            <td><label class="form-label">Title</label><br>
-                                <select class="form-select-sm"  name="title" id="title" required="yes">
-                                    <option value="Mr">Mr</option>
-                                    <option value="Ms">Ms</option>
-                                    <option value="Mrs">Mrs</option>
-                                    <option value="Dr">Dr</option>
-                                </select>
-                            </td>
-                            <td>
-                                <label class="form-label">First Name</label>
-                                <input type="text" class="form-control-sm" name="firstname" maxlength="25" id="firstname" required="yes" value="<cfoutput>#firstname#</cfoutput>">
-                                <span id="firstnamespan"><cfoutput>#firstnamemssg#</cfoutput></span>
-                            </td>
-                            <td>
-                                <label class="form-label">Last Name</label><br>
-                                <input type="text" class="form-control-sm" name="lastname" id="lastname" maxlength="25" required="yes" value="<cfoutput>#lastname#</cfoutput>">
-                                <span id="lastnamespan"><cfoutput>#lastnamemssg#</cfoutput></span>
-                            </td> 
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="form-label">Gender</label>
-                                <select class="form-select-sm" name="gender" id="gender" required="yes">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </td>
-                            <td>
-                                <label class="form-label">DOB</label><br>
-                                <input class="form-control-sm" type="date" id="dob" name="dob" required="yes" value="<cfoutput>#dob#</cfoutput>">
-                                <span id="dobspan"><cfoutput>#dobmssg#</cfoutput></span>
-                            </td>
-                            <td>
-                                <label class="form-label">Upload Photo</label>
-                                <input class="form-control-sm" type="file" name="photo" id="photo" value="<cfoutput>#photo#</cfoutput>">
-                                <label class="form-label"><cfoutput>#photo#</cfoutput></label>
-                                <input type="hidden" id="photopath" name="photopath" value="<cfoutput>#photo#</cfoutput>">
-                            </td>                    
-                        </tr>
-                    </table>
-                </div>
-                <div class="profile">        
-                    <h5 class="text-light">Contact Details</h5>        
-                </div>
+            </cfif>            
+            <form id="form" name="form" method="post" action="" enctype="multipart/form-data"> 
+                <cfoutput>           
+                    <div class="profile">        
+                        <h5 class="text-light"><a href="index.html">Personal Details</a></h5>        
+                    </div>        
+                    <div class='container'>
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <label class="form-label">Title</label><br>                                
+                                    <CFQUERY NAME="list" DATASOURCE="addressbook">
+                                        SELECT 
+                                            comboname
+                                        FROM 
+                                            combo
+                                        WHERE
+                                            combotype="tittle" 
+                                        ORDER BY 
+                                            id
+                                    </CFQUERY>                  
+                                    <select class="form-select-sm"  name="title" id="title" required="yes">
+                                        <cfloop query="list">
+                                            <cfset selected="">  
+                                            <cfif title eq comboname>
+                                                <cfset selected="selected">
+                                            </cfif>
+                                            <OPTION #selected# VALUE="#comboname#">#comboname#</OPTION>
+                                        </cfloop>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-control-sm" name="firstname" maxlength="25" id="firstname" required="yes" value="#firstname#">
+                                    <span id="firstnamespan">#firstnamemssg#</span>
+                                </td>
+                                <td>
+                                    <label class="form-label">Last Name</label><br>
+                                    <input type="text" class="form-control-sm" name="lastname" id="lastname" maxlength="25" required="yes" value="#lastname#">
+                                    <span id="lastnamespan">#lastnamemssg#</span>
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="form-label">Gender</label>
+                                    <CFQUERY NAME="genderlist" DATASOURCE="addressbook">
+                                        SELECT 
+                                            comboname
+                                        FROM 
+                                            combo
+                                        WHERE
+                                            combotype="gender" 
+                                        ORDER BY 
+                                            id
+                                    </CFQUERY>   
+                                    <select class="form-select-sm" name="gender" id="gender" required="yes">
+                                        <cfloop query="genderlist">
+                                            <cfset selectedgender="">  
+                                            <cfif gender eq comboname>
+                                                <cfset selectedgender="selected">
+                                            </cfif>
+                                            <OPTION #selectedgender# VALUE="#comboname#">#comboname#</OPTION>
+                                        </cfloop>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label class="form-label">DOB</label><br>
+                                    <input class="form-control-sm" type="date" id="dob" name="dob" required="yes" value="#dob#">
+                                    <span id="dobspan">#dobmssg#</span>
+                                </td>
+                                <td>
+                                    <label class="form-label">Upload Photo</label>
+                                    <input class="form-control-sm" type="file" name="photo" id="photo" value="#photo#">
+                                    <label class="form-label">#photo#</label>
+                                    <input type="hidden" id="photopath" name="photopath" value="#photo#">
+                                </td>                    
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="profile">        
+                        <h5 class="text-light">Contact Details</h5>        
+                    </div>
                     <div class="container">
                         <table>
                             <tr>
                                 <td colspan="4"><label class="form-label">Address</label>
-                                    <textarea required="yes" class="form-control" id="address" name="address"><cfoutput>#address#</cfoutput></textarea>
-                                    <span id="addressspan"><cfoutput>#addressmssg#</cfoutput></span>
+                                    <textarea required="yes" class="form-control" id="address" name="address">#address#</textarea>
+                                    <span id="addressspan">#addressmssg#</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <label class="form-label">Street  </label><br>
-                                    <input type="text" class="form-control-sm" id="street" name="street" required="yes" value="<cfoutput>#street#</cfoutput>">
-                                    <span id="streetspan"><cfoutput>#streetmssg#</cfoutput></span>
+                                    <input type="text" class="form-control-sm" id="street" name="street" required="yes" value="#street#">
+                                    <span id="streetspan">#streetmssg#</span>
                                 </td>
                                 <td>
                                     <label class="form-label">Email   </label><br>
-                                    <input type="email" class="form-control-sm" id="email" name="email" required="yes" value="<cfoutput>#email#</cfoutput>">
-                                    <span id="emailspan"><cfoutput>#emailmssg#</cfoutput></span>
+                                    <input type="email" class="form-control-sm" id="email" name="email" required="yes" value="#email#">
+                                    <span id="emailspan">#emailmssg#</span>
                                 </td>
                                 <td>
                                     <label class="form-label">Phone   </label><br>
-                                    <input type="text" class="form-control-sm" onkeyup="javascript:testbox(this.value)" id="phone" name="phone" required="yes" value="<cfoutput>#phone#</cfoutput>">
-                                    <input type="hidden" id="id" name="id" value="<cfoutput>#id#</cfoutput>">
-                                    <span id="phonespan"><cfoutput>#phonemssg#</cfoutput></span>
+                                    <input type="text" class="form-control-sm" onkeyup="javascript:testbox(this.value)" id="phone" name="phone" required="yes" value="#phone#">
+                                    <input type="hidden" id="id" name="id" value="#id#">
+                                    <span id="phonespan">#phonemssg#</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="4"><br>
-                                    <input type="Submit" onclick="javascript:contactcheck()" style="display:<cfoutput>#displaynew#</cfoutput>;" name="Submit" class="buttonclose" value="Create Contact & Close">
-                                    <input type="Submit" onclick="javascript:contactcheck()" style="display:<cfoutput>#displayedit#</cfoutput>;" name="Update" class="buttonclose" value="Update Contact & Close">
+                                    <input type="Submit" onclick="javascript:contactcheck()" style="display:#display#;" name="#btnname#" class="buttonclose" value="#btnvalue#">                                    
                                 </td>
                             </tr>
                         </table>                
                     </div>
-            </form>    
+                </cfoutput>
+            </form>             
             <cfif isDefined("form.Update")>
                 <cfinvoke component="ADDRESSBOOK.Components.addressbook" method="updatecontact" 
                 form="#form#">

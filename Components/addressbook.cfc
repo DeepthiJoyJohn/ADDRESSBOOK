@@ -87,42 +87,42 @@
    	    </cfif> 
 		<cfset local.errorarray=ArrayNew(1)>
 		<cfset local.flag="true"> 		
-   	    <cfif #form.title# EQ "">
+   	    <cfif form.title EQ "">
 			<cfset ArrayAppend(local.errorarray, "titlemssg")> 
 			<cfset local.flag="false"> 
 		</cfif>
-   	    <cfif #form.firstname# EQ "">   	    	
+   	    <cfif form.firstname EQ "">   	    	
    	    	<cfset ArrayAppend(local.errorarray, "firstnamemssg")> 
 			<cfset local.flag="false"> 
 		</cfif> 
-   	    <cfif #form.lastname# EQ "">
+   	    <cfif form.lastname EQ "">
    	    	<cfset ArrayAppend(local.errorarray, "lastnamemssg")> 
 			<cfset local.flag="false"> 
 		</cfif>
-   	    <cfif #form.gender# EQ "">
+   	    <cfif form.gender EQ "">
    	    	<cfset ArrayAppend(local.errorarray, "gendermssg")>
 			<cfset local.flag="false">  
 		</cfif>
-   	    <cfif #form.dob# EQ "">
+   	    <cfif form.dob EQ "">
    	    	<cfset ArrayAppend(local.errorarray, "dobmssg")>
 			<cfset local.flag="false">  
 		</cfif>
-   	    <cfif #form.address# EQ "">
+   	    <cfif form.address EQ "">
    	    	<cfset ArrayAppend(local.errorarray, "addressmssg")>
 			<cfset local.flag="false">  
 		</cfif>
-   	    <cfif #form.street# EQ "">
+   	    <cfif form.street EQ "">
    	    	<cfset ArrayAppend(local.errorarray, "streetmssg")> 
 			<cfset local.flag="false"> 
 	    </cfif>
-   	    <cfif #form.email# EQ "">
+   	    <cfif form.email EQ "">
    	    	<cfset ArrayAppend(local.errorarray, "emailmssg")> 
 		</cfif>
-   	    <cfif #form.phone# EQ "">   	   
+   	    <cfif form.phone EQ "">   	   
    	    	<cfset ArrayAppend(local.errorarray, "phonemssg")> 
 			<cfset local.flag="false"> 
    	    </cfif>
-   	   <cfif #session.userid# neq "" && local.flag neq "false">  	        
+   	   <cfif session.userid neq "" && local.flag neq "false">  	        
 	        <cfquery name="local.createcontact" datasource="addressbook">
 	            INSERT INTO 
 					contactdetails (title,firstname,lastname,gender,dob,photo,address,
@@ -183,11 +183,18 @@
 		</cfquery>
         <cflocation url="../listing.cfm" addtoken="false">
     </cffunction>
-    <cffunction name="generateexcel" access="remote"> 
-    	<cfquery name="local.generateexcel" datasource="addressbook"> 
+	<cffunction name="selectcontacts" access="public"> 
+		<cfquery name="local.selectcontacts" datasource="addressbook"> 
 	       SELECT firstname,email,phone 
 	       FROM contactdetails where createdby="#session.userid#" 
 		</cfquery> 
+		<cfreturn local.selectcontacts>
+	</cffunction> 	
+    <cffunction name="generateexcel" access="public"> 
+    	<cfquery name="local.generateexcel" datasource="addressbook"> 
+	       SELECT firstname,email,phone 
+	       FROM contactdetails where createdby="#session.userid#" 
+		</cfquery>
 		<cfscript> 		   
 		    theDir=GetContextRoot(); 		    
 		    theFile=theDir&"ExcelFiles/courses.xls";
@@ -195,7 +202,6 @@
 		    SpreadSheetAddRow(theSheet,"Name,email,phone");		  	
 		    SpreadsheetAddRows(theSheet,local.generateexcel); 
 		</cfscript>
-		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>	
-		 
-	</cffunction> 
+		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>			    
+	</cffunction> 	 
 </cfcomponent>  

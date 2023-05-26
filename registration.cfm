@@ -34,27 +34,26 @@
 				<cfif isDefined("Form.register")>											      
 					<cfinvoke component="ADDRESSBOOK.Components.addressbook" method="signup" 
 					form="#form#" returnVariable="res">	
-					<cfif  #ArrayContains(res, "usernamemessage")#>
+					<cfif ArrayContains(res, "usernamemessage")>
 						<cfset usernamemessage="Required">
 					</cfif>
-					<cfif  #ArrayContains(res, "emailmessage")#>
+					<cfif ArrayContains(res, "emailmessage")>
 						<cfset emailmessage="Required">
 					</cfif>
-					<cfif  #ArrayContains(res, "password1")#>
+					<cfif ArrayContains(res, "password1")>
 						<cfset passwordmessage1="Required">
 					</cfif>
-					<cfif  #ArrayContains(res, "password2")#>
+					<cfif ArrayContains(res, "password2")>
 						<cfset passwordmessage2="Required">
 					</cfif>
-					<cfif  #ArrayContains(res, "passwordmissmatch")#>
+					<cfif ArrayContains(res, "passwordmissmatch")>
 						<cfset passwordmessage="Password Mismatch">
 					</cfif>
-					<cfif  #ArrayContains(res, "Already Exists")#>
+					<cfif ArrayContains(res, "Already Exists")>
 						<cfset outputmessage="Already Exists">
 					</cfif>
-					<cfif  #ArrayContains(res, "Registered Please Login")#>
+					<cfif ArrayContains(res, "Registered Please Login")>
 						<cfset outputmessage="Registered Successfully <a href='login.cfm'>Continue</a>">
-						
 					</cfif>
 				</cfif>
 				<cfoutput>
@@ -96,7 +95,7 @@
 									</div>
 								</div>
 								<span id="message"></span>
-								<span class="messagecolor" id="output"><cfoutput>#outputmessage#</cfoutput></span>
+								<span class="messagecolor" id="output">#outputmessage#</span>
 								<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">							                	
 									<input type="Submit" name="register"  onclick="javascript:registrationnullcheck()" class="btn btn-primary btn-lg" value="Register">
 								</div>	

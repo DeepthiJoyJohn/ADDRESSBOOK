@@ -33,16 +33,16 @@
 									<cfif isDefined("form.log")>							                 	
 										<cfinvoke component="ADDRESSBOOK.Components.addressbook" method="login" 
 										Uname="#form.Uname#" Pass="#form.Pass#" returnVariable="res">
-										<cfif  #ArrayContains(res, "Wrong Credendials")# >
+										<cfif  ArrayContains(res, "Wrong Credendials") >
 										    <cfset loginmessage="Wrong Credentials!!">
 										</cfif>										
-										<cfif  #ArrayContains(res, "Username Required")# >
+										<cfif  ArrayContains(res, "Username Required") >
 											<cfset usernamemessage="Required">
 										</cfif>	
-										<cfif  #ArrayContains(res, "Password Required")# >
+										<cfif  ArrayContains(res, "Password Required") >
 											<cfset passwordmessage="Required">										
 										</cfif>	
-										<cfif #ArrayContains(res, "Correct")#>											
+										<cfif ArrayContains(res, "Correct")>											
 											<cflocation url="listing.cfm" addtoken="no">
 										</cfif>										
 									</cfif>

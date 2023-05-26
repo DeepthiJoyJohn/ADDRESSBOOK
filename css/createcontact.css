@@ -45,14 +45,14 @@ td{
 	text-align:center;
 	
 }
-.fa-file-excel-o{
+.fa-file-excel{
   color: green;
   float:right;
   padding:5px;
 
 }
-.fa-file-pdf-o{
-  color: red;
+.fa-file-pdf{
+  color: rgb(145, 10, 10);
   float:right;
   padding:5px;
   background-col

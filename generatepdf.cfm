@@ -1,4 +1,6 @@
 <html>
+    <cfdump var=#url.res#>
+	<cfabort>
 	<cfif #session.userid# eq "">
 		<cflocation url="login.cfm">
     </cfif>
@@ -7,17 +9,11 @@
         <link rel="stylesheet" type="text/css" href="css/createcontact.css">
 	    <link href="assets/css/style.css" rel="stylesheet">
 	</head>
-	<cfset print = #url.print#/> 
-	<cfif print eq "true">
-		<cfset value="inline">
-	<cfelse>
-		<cfset value="attachment">	
-	</cfif>           
 	<cfquery name="local.generatepdf" datasource="addressbook"> 
-		SELECT firstname,email,phone,photo 
-		FROM contactdetails where createdby="#session.userid#" 
-	</cfquery> 
-	<cfheader name="Content-Disposition" value="#value#; filename=mydoc.pdf">
+	       SELECT firstname,email,phone 
+	       FROM contactdetails where createdby="#session.userid#" 
+	</cfquery>
+	<cfheader name="Content-Disposition" value="inline; filename=mydoc.pdf">
 	<cfcontent type="application/pdf">	  
 	<cfdocument format="PDF">
 		<cfoutput>
