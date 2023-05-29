@@ -15,8 +15,7 @@
 		<script src="assets/vendor/php-email-form/validate.js"></script>
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>	
 		<script src="js/registration.js" type="text/javascript"></script>
-		<script src="js/listing.js" type="text/javascript"></script>
-		<script src="js/excel.js" type="text/javascript"></script>	 
+		<script src="js/listing.js" type="text/javascript"></script>		
 	</head>
 	<body>
 		<cfoutput>
@@ -33,10 +32,10 @@
 				</div>
 			</header>	  	
 			<section  class="d-flex flex-column justify-content-center align-items-center">
-				<cfform name="form" id="form" action="" method="post">  
+				<form name="form" id="form" action="" method="post">  
 					<div class="title2">
 						<button type="submit" name="logout" class="logout"><i class="bx bx-log-out" aria-hidden="true"></i> Logout</button>                		                         
-						<button type="button" title="EXCEL" onclick="javascript:generateexcel();" class="printbutton"><i class="fa fa-file-excel" aria-hidden="true"></i></button>
+						<button type="submit" title="EXCEL" name="exlbtn" class="printbutton"><i class="fa fa-file-excel" aria-hidden="true"></i></button>
 						<button type="submit" title="PDF" name="pdfbtn" value="attachment" class="printbutton"><i class="fa fa-file-pdf" aria-hidden="true"></i></button>
 						<button type="submit" title="PRINT" name="pdfbtn" value="inline" class="printbutton"><i class="fa fa-print" aria-hidden="true"></i></button> 
 					</div>
@@ -81,40 +80,61 @@
 							</cfloop> 
 							</table><br><br>					
 						</div>					
-						<cfif isDefined("form.pdfbtn")>
+						<cfif isDefined("form.pdfbtn") OR isDefined("form.exlbtn")>
 							<cfinvoke component="ADDRESSBOOK.Components.addressbook" method="selectcontacts" 
-					        returnVariable="res">	
-							<cfheader name="Content-Disposition" value="#form.pdfbtn#; filename=mydoc.pdf">
-							<cfcontent type="application/pdf">	  
-							<cfdocument format="PDF">
-								<cfoutput>
+								returnVariable="res">
+							<cfif isDefined("form.pdfbtn")>									
+								<cfheader name="Content-Disposition" value="#form.pdfbtn#; filename=mydoc.pdf">
+								<cfcontent type="application/pdf">
+								<cfdocument format="PDF">
 									<table>
+										<tr>
+											<td style="width:120px;text-align:center;border:1px solid"><b>SL:No</b></td>
+											<td style="width:200px;text-align:left;border:1px solid"><b>Name</b></td>
+											<td style="width:200px;text-align:left;border:1px solid"><b>Email</b></td>
+											<td style="width:150px;text-align:left;border:1px solid"><b>Phone</b></td>
+										</tr>					
+										<cfset slno=1>
+										<cfloop query="res">
 											<tr>
-												<td style="width:120px;text-align:center;border:1px solid"><b>SL:No</b></td>
-												<td style="width:200px;text-align:left;border:1px solid"><b>Name</b></td>
-												<td style="width:200px;text-align:left;border:1px solid"><b>Email</b></td>
-												<td style="width:150px;text-align:left;border:1px solid"><b>Phone</b></td>
-											</tr>					
-											<cfset slno=1>
-											<cfloop query="res">
-												<tr>
-													<td style="width:120px;text-align:center;border:1px solid">#slno#</td>
-													<td style="width:200px;text-align:left;border:1px solid">#res.firstname#</td>
-													<td style="width:200px;text-align:left;border:1px solid">#res.email#</td>
-													<td style="width:150px;text-align:left;border:1px solid">#res.phone#</td>
-												</tr>
-												<cfset slno=slno+1>
-											</cfloop>
+												<td style="width:120px;text-align:center;border:1px solid">#slno#</td>
+												<td style="width:200px;text-align:left;border:1px solid">#res.firstname#</td>
+												<td style="width:200px;text-align:left;border:1px solid">#res.email#</td>
+												<td style="width:150px;text-align:left;border:1px solid">#res.phone#</td>
+											</tr>
+											<cfset slno=slno+1>
+										</cfloop>
 									</table>
-								</cfoutput>		
-							</cfdocument> 
-						</cfif>
+							</cfdocument>								
+							<cfelse>									
+								<cfheader name="Content-Disposition" value="attachment; filename=contacts.xls">
+    							<cfcontent type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+								<table>
+									<tr>
+										<td style="width:120px;text-align:center;border:1px solid"><b>SL:No</b></td>
+										<td style="width:200px;text-align:left;border:1px solid"><b>Name</b></td>
+										<td style="width:200px;text-align:left;border:1px solid"><b>Email</b></td>
+										<td style="width:150px;text-align:left;border:1px solid"><b>Phone</b></td>
+									</tr>					
+									<cfset slno=1>
+									<cfloop query="res">
+										<tr>
+											<td style="width:120px;text-align:center;border:1px solid">#slno#</td>
+											<td style="width:200px;text-align:left;border:1px solid">#res.firstname#</td>
+											<td style="width:200px;text-align:left;border:1px solid">#res.email#</td>
+											<td style="width:150px;text-align:left;border:1px solid">#res.phone#</td>
+										</tr>
+										<cfset slno=slno+1>
+									</cfloop>
+								</table>
+							</cfif>	
+						</cfif>						
 						<cfif isDefined("form.logout")>				    
 							<cfset StructClear(session)>
 							<cflocation url="login.cfm" addtoken="no"> 	
 						</cfif>
 					</div>
-				</cfform>
+				</form>
 			</section>	
 		</cfoutput>
 	</body>

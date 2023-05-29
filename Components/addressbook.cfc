@@ -1,4 +1,18 @@
-<cfcomponent output="false">
+<cfcomponent output="false"> 
+    <cffunction name="getlogin" access="remote">
+		<cfargument name="Uname">
+		<cfargument name="Pass">
+		<cfquery name="local.getlogin" datasource="addressbook">
+				SELECT 					
+					id,username  
+				FROM 
+					login 
+				WHERE 
+					username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR">
+					AND password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
+		</cfquery> 
+		<cfreturn local.getlogin>
+	</cffunction>   
     <cffunction name="login" access="remote">
         <cfargument name="Uname">
 		<cfargument name="Pass">
@@ -12,19 +26,11 @@
 			<cfset ArrayAppend(local.errorarray, "Password Required")> 
 		</cfif>
 		<cfif (arguments.Uname NEQ "") &&  (arguments.Pass NEQ "")>
-			<cfquery name="local.checklogin" datasource="addressbook">
-				SELECT 					
-					id,username  
-				FROM 
-					login 
-				WHERE 
-					username=<cfqueryparam value="#arguments.Uname#" cfsqltype="CF_SQL_VARCHAR">
-					AND password=<cfqueryparam value="#arguments.Pass#" cfsqltype="CF_SQL_VARCHAR">
-			</cfquery> 	       
-			<cfif local.checklogin.RecordCount GTE 1> 
+			<cfset myRecordSet = getlogin("#arguments.Uname#","#arguments.Pass#") />
+			<cfif myRecordSet.RecordCount GTE 1> 
 				<cflock TYPE="EXCLUSIVE" timeout = "60" SCOPE="SESSION">           
-					<cfset session.username="#local.checklogin.username#">
-					<cfset session.userid="#local.checklogin.id#">	
+					<cfset session.username="#myRecordSet.username#">
+					<cfset session.userid="#myRecordSet.id#">	
 				</cflock>	
 				<cfset ArrayAppend(local.errorarray, "Correct")> 
 			<cfelse>
@@ -52,15 +58,8 @@
 			<cfset ArrayAppend(local.errorarray, "passwordmissmatch")>	
 		</cfif>
 		<cfif (form.username neq "") && (form.emailname neq "") && (form.password1 eq form.password2)>	
-			<cfquery name="local.signup" datasource="addressbook">
-            	SELECT 
-					username 
-				FROM 
-					login 
-				WHERE 
-					username=<cfqueryparam value="#form.username #" cfsqltype="CF_SQL_VARCHAR">
-        	</cfquery>
-			<cfif local.signup.RecordCount GTE 1>  
+			<cfset local.myRecordSet = getlogin("#form.username#","#form.password1#") />
+			<cfif local.myRecordSet.RecordCount GTE 1>  
 				<cfset ArrayAppend(local.errorarray, "Already Exists")>  
 			<cfelse>			                             
 				<cfquery name="local.signup" datasource="addressbook">
@@ -189,19 +188,5 @@
 	       FROM contactdetails where createdby="#session.userid#" 
 		</cfquery> 
 		<cfreturn local.selectcontacts>
-	</cffunction> 	
-    <cffunction name="generateexcel" access="public"> 
-    	<cfquery name="local.generateexcel" datasource="addressbook"> 
-	       SELECT firstname,email,phone 
-	       FROM contactdetails where createdby="#session.userid#" 
-		</cfquery>
-		<cfscript> 		   
-		    theDir=GetContextRoot(); 		    
-		    theFile=theDir&"ExcelFiles/courses.xls";
-		    theSheet = SpreadsheetNew("contactdata");
-		    SpreadSheetAddRow(theSheet,"Name,email,phone");		  	
-		    SpreadsheetAddRows(theSheet,local.generateexcel); 
-		</cfscript>
-		<cfspreadsheet action="write" filename="#theFile#" name="theSheet" sheetname="contactdata" overwrite=true>			    
-	</cffunction> 	 
+	</cffunction>
 </cfcomponent>  

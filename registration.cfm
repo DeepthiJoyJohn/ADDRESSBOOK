@@ -24,7 +24,7 @@
 		    </div>
 		</header>	  	 
 		<section  class="d-flex flex-column justify-content-center align-items-center">
-		  	<cfform id="form" name="form" method="post" action="">
+		  	<form id="form" name="form" method="post" action="">
 				<cfset usernamemessage="">	
 				<cfset emailmessage="">
 				<cfset passwordmessage="">
@@ -103,7 +103,7 @@
 						</div>
 					</div>		
 				</cfoutput>	
-			</cfform>		    
+			</form>		    
 		</section>	
 	</body>
 </html>

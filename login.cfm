@@ -21,7 +21,7 @@
 		    </div>
 		</header>	  	 
 		<section  class="d-flex flex-column justify-content-center align-items-center">				
-		  	<cfform id="form" name="form" method="post" action="">
+		  	<form id="form" name="form" method="post" action="">
 				<div class="container h-100 bodyclass">
 			    	<div class="row d-flex justify-content-center align-items-center h-100">
 			      		<div class="col-lg-12 col-xl-11">
@@ -54,7 +54,7 @@
 													<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 													<div class="form-outline flex-fill mb-0">
 														<input type="text" id="Uname" required="yes" name="Uname" maxlength="15" class="form-control"/>
-														<label class="form-label" for="form3Example1c">User Name</label>													
+														<label class="form-label">User Name</label>													
 														<span id="username">#usernamemessage#</span>
 													</div>
 												</div>			                  				
@@ -62,7 +62,7 @@
 													<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
 													<div class="form-outline flex-fill mb-0">
 														<input type="password" id="Pass" required="yes" name="Pass" maxlength="15" class="form-control"/>
-														<label class="form-label" for="form3Example4c">Password</label>
+														<label class="form-label">Password</label>
 														<span id="password">#passwordmessage#</span>
 													</div>													
 												</div>
@@ -83,7 +83,7 @@
 			      		</div>
 			    	</div>
 			  	</div>			
-			</cfform>		    
+			</form>		    
 		</section>	
 	</body>
 </html>
