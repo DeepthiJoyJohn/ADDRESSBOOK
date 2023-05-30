@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<cfif #session.userid# eq "">
+	<cflocation url="login.cfm">
+</cfif>
 <html lang="en">
 	<head>	    
 	    <title>ADDRESSBOOK</title>
