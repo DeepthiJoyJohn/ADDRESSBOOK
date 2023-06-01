@@ -185,7 +185,7 @@
 	<cffunction name="selectcontacts" access="public"> 
 		<cfquery name="local.selectcontacts" datasource="addressbook"> 
 	       SELECT firstname,email,phone 
-	       FROM contactdetails where createdby="#session.userid#" 
+	       FROM contactdetails where createdby="#session.userid#" AND flag ="ACTIVE"
 		</cfquery> 
 		<cfreturn local.selectcontacts>
 	</cffunction>
